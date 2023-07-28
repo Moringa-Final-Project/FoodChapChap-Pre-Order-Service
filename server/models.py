@@ -45,6 +45,7 @@ class Customer(db.Model, SerializerMixin):
 
     serialize_rules = ('-admin.customers', '-orders.customer', '-loyalty_programs.customer',)
 
+
     def __repr__(self):
         return f'Customer(customer_id={self.customer_id}, customer_email={self.customer_email})'
     
