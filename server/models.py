@@ -66,6 +66,7 @@ class MenuItem(db.Model, SerializerMixin):
     price = db.Column(db.Float, nullable=False)
     customization_options = db.Column(db.String(100), nullable=False)
 
+
     def __repr__(self):
         return f'MenuItem(item_id={self.item_id}, item_name={self.item_name})'
     
