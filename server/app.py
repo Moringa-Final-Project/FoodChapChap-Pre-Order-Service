@@ -176,4 +176,3 @@ api.add_resource(RestaurantLogin, '/restaurantlogin')
 if __name__ == '__main__':
     app.run(port=5555)
 
-
