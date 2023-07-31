@@ -4,7 +4,6 @@ import LoginSignUpContainer from './LoginSignUpContainer';
 function App() {
   return (
     <LoginSignUpContainer />
-    
   );
 }
 
