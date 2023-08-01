@@ -12,7 +12,7 @@ const tabs=[
   { 
     id:2,
     name: 'Dining Out',
-    active_img: 'https://static.vecteezy.com/system/resources/previews/021/232/292/non_2x/champagne-icon-design-free-vector.jpg',
+    active_img: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSN_jGVQKDy9VzURJRMdn-LoKGYNSz5TIQ91JnKnAHra8PoKKy-',
     backdrop: '#E5F3F3',
     inactive_image:'https://cdn-icons-png.flaticon.com/128/5527/5527985.png'
   },
@@ -35,10 +35,15 @@ const TabOptions = ({ activeTab, setActiveTab}) => {
             className={`tab-item absolute-center cur-po ${activeTab===tab.name && 'active-tab'}`}
             >
               <div className='tab-image-container absolute-center'
-              style={{backgroundColor:`${activeTab===tab.name?tab.backdrop}`}}
+              style={{backgroundColor:`${activeTab===tab.name?tab.backdrop : ''}`}}
               >
-
+                <img 
+                className='tab-image' 
+                alt={tab.name} 
+                src={ activeTab===tab.name ? tab.active_img:tab.inactive_image} 
+                />
               </div>
+              <div className='tab-name'>{tab.name}</div>
             </div>
           )
         })}

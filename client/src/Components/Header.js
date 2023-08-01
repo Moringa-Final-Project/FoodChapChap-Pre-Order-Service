@@ -32,7 +32,7 @@ const Header = () => {
         <div className='profile-wrapper'>
             <img 
                 src={profile}
-                alt='Profile Image'
+                alt='Profile'
                 className='header-profile-image'
             />
             <span className='header-username'>User</span>
