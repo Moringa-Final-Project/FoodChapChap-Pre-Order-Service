@@ -14,21 +14,12 @@ function Menu(){
   ]);
 
   const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [ selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [updatedItem, setUpdatedItem] = useState ({
     item: '',
     price: '',
   });
 
-  const handleAccept = (itemId) => { 
-    // find the item in the menuItems array by its and set its status as "accepted"
-    setMenuItems((prevMenuItems) => 
-      prevMenuItems.map((item) =>
-        item.id === itemId ? { ...item, status: 'accepted'} : item
-      )
-    );
-  };
-  
   const handleDelete = (itemId) => {
     //Remove the item from the menuItems array by its id
     setMenuItems((prevMenuItems) => prevMenuItems.filter((item) => item.id !== itemId));
@@ -65,9 +56,6 @@ function Menu(){
             <h3>{item.item}</h3>
             <p>Price: ${item.price}</p>
             <div className="menu-card-buttons">
-              <button className="accept-button" onClick={() => handleAccept(item.id)}>
-                Accept
-              </button>
               <button className="delete-button" onClick={() => handleDelete(item.id)}>
                 Delete
               </button>
