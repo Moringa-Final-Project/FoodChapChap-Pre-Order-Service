@@ -31,5 +31,24 @@
 }
 
 .location-wrapper{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
 
+.location-icon-name{
+    display: flex;
+    color: var(--foodchap-gray);
+} 
+
+.location-icon{
+    color: var(--foodchap-orange);
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.location-search-separator{
+    height: 20px;
+    border: 0.5px solid var(--gray);
 }

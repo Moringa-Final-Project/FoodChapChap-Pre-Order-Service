@@ -19,6 +19,22 @@ const Header = () => {
                 </div>
                 <i className="fi fi-rr-caret-down absolute-center"></i>
             </div>
+            <div className='location-search-separator'></div>
+            <div className='header-searchbar'>
+            <i className="fi fi-rr-search absolute-center search-icon"></i>
+            <input 
+                placeholder='Search for restaurant, cuisine, or a dish' 
+                className='search-input' 
+            />
+            </div>
+        </div>
+        <div className='profile-wrapper'>
+            <img 
+                src=''
+                alt='Profile Image'
+                className='header-profile-image'
+            />
+            <span></span>
         </div>
     </div>
     </div>
