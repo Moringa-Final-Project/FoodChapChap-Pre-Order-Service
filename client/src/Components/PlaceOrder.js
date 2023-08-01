@@ -1,5 +1,6 @@
 import React from 'react'
 import Filters from './Filters'
+import PlaceOrderCollections from './PlaceOrderCollections';
 
 const placeOrderFilters=[
   {
@@ -36,6 +37,7 @@ const PlaceOrder = () => {
       <div className='max-width'>
       <Filters filterList={placeOrderFilters} />
       </div>
+      <PlaceOrderCollections />
     </div>
   )
 }
