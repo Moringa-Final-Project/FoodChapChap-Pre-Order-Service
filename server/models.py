@@ -5,36 +5,22 @@ db = SQLAlchemy()
 
 # MODELS
 
-# ADMIN
-class Admin(db.Model, SerializerMixin):
-    __tablename__ = 'admins'
+# USERS (The system has three users: Customer, Restaurant Owner and Admin) 
+class User(db.Model, SerializerMixin):
+    __tablename__ = 'users'
 
-    admin_id = db.Column(db.Integer, primary_key=True)
-    admin_username = db.Column(db.String(100), nullable=False, unique=True)
-    admin_email = db.Column(db.String(120), nullable=False, unique=True)
-    admin_password = db.Column(db.String(255), nullable=False)
-    
-
-    def __repr__(self):
-        return f'Admin(admin_id={self.admin_id}, admin_email={self.admin_email})'
-
-
-# CUSTOMER
-class Customer(db.Model, SerializerMixin):
-    __tablename__ = 'customers'
-
-    customer_id = db.Column(db.Integer, primary_key=True)
-    customer_name = db.Column(db.String(100), nullable=False, unique=True)
-    customer_email = db.Column(db.String(120), nullable=False, unique=True)
-    customer_password = db.Column(db.String(255), nullable=False)
-    phone_number = db.Column(db.String(20))
-    address = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, primary_key=True)
+    names = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    role = db.Column(db.String(20), nullable=False) 
+    phone_number = db.Column(db.String(15))
+    address = db.Column(db.String(200))  
 
     def __repr__(self):
-        return f'Customer(customer_id={self.customer_id}, customer_email={self.customer_email})'
+        return f'User(user_id={self.user_id}, names={self.names})'
     
     
-
 
 # RESTAURANT
 
@@ -43,8 +29,6 @@ class Restaurant(db.Model, SerializerMixin):
 
     restaurant_id = db.Column(db.Integer, primary_key=True)
     restaurant_name = db.Column(db.String(200), nullable=False)
-    restaurant_email = db.Column(db.String(120), nullable=False, unique=True)
-    restaurant_password = db.Column(db.String(255), nullable=False)
     location = db.Column(db.String(200), nullable=False)
     ambience = db.Column(db.String(100), nullable=False)
     cuisines_offered = db.Column(db.String(200), nullable=False)
