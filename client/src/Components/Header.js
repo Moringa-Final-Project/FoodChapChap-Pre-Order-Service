@@ -1,6 +1,7 @@
 import React from 'react'
 import './Header.css'
 import logo from '../images/logo.png';
+import profile from '../images/user.png'
 
 const Header = () => {
   return (
@@ -30,11 +31,12 @@ const Header = () => {
         </div>
         <div className='profile-wrapper'>
             <img 
-                src=''
+                src={profile}
                 alt='Profile Image'
                 className='header-profile-image'
             />
-            <span></span>
+            <span className='header-username'>User</span>
+            <i className="fi fi-rr-angle-small-down absolute-center profile-options-icon"></i>
         </div>
     </div>
     </div>

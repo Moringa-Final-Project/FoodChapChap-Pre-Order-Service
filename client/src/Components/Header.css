@@ -52,3 +52,43 @@
     height: 20px;
     border: 0.5px solid var(--gray);
 }
+
+.header-searchbar{
+    display: flex;
+    flex: 2;
+}
+
+.search-icon{
+    font-size: 20px;
+    color: var(--foodchap-orange);
+    margin: 0px 12px;    
+}
+
+.search-input{
+    border: none;
+    outline: none;
+    width: 60%;
+    font-size: 14px;
+}
+
+.profile-wrapper{
+    display: flex;
+    justify-content: space-between;
+    width: 15%;
+    align-items: center;
+}
+
+.header-profile-image{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.header-username{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.profile-options-icon{
+    font-size: 20px;
+}
