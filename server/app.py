@@ -1,4 +1,5 @@
 from flask import Flask, request, make_response, jsonify, session
+from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
@@ -14,6 +15,7 @@ app.json.compact = False
 
 jwt = JWTManager(app)
 
+CORS(app)
 migrate = Migrate(app, db)
 db.init_app(app)
 
@@ -59,7 +61,7 @@ def signup():
         response = make_response(jsonify({"error": "Please provide all required fields"}), 400)
         return response
     
-    allowed_roles = ['customer', 'restaurant_owner', 'admin']
+    allowed_roles = ['customer', 'restaurant_owner']
 
     if role not in allowed_roles:
         response = make_response(jsonify({"error": "Invalid role"}), 400)
