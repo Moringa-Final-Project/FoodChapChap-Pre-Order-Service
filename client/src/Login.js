@@ -10,12 +10,10 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Create the login request body in the format expected by the backend
     const formData = new FormData();
     formData.append('email', email);
     formData.append('password', password);
 
-    // Send the login request to the backend endpoint
     fetch('http://127.0.0.1:5000/login', {
       method: 'POST',
       body: formData,
@@ -28,11 +26,9 @@ const Login = () => {
         }
       })
       .then((data) => {
-        // Handle successful login response here (e.g., set user state, store token, redirect, etc.)
         console.log(data);
       })
       .catch((error) => {
-        // Handle login error here (e.g., show error message to the user)
         console.error(error);
       });
   };
