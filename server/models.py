@@ -1,9 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import validates
 
 db = SQLAlchemy()
 
+
 # MODELS
+
 
 # USERS (The system has three users: Customer, Restaurant Owner and Admin) 
 class User(db.Model, SerializerMixin):
@@ -14,11 +17,30 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(20), nullable=False) 
-    phone_number = db.Column(db.String(15))
-    address = db.Column(db.String(200))  
+    phone_number = db.Column(db.String(10), nullable=False)
+    address = db.Column(db.String(200), nullable=True)
 
     def __repr__(self):
         return f'User(user_id={self.user_id}, names={self.names})'
+    
+    # email validation
+    @validates('email')
+    def validates_email(self, key, email):
+        if '@' not in email:
+            raise ValueError("Enter a valid email")
+        else:
+            return email
+
+    # phone_number validation
+    @validates('phone_number')
+    def validate_phone_number(self, key, value):
+        if value is None:
+            raise ValueError('Phone number must not be empty.')
+        if not value.isdigit():
+            raise ValueError('Phone number must contain only digits.')
+        if len(value) != 10:
+            raise ValueError('Phone number must contain exactly 10 digits.')
+        return value
     
     
 
