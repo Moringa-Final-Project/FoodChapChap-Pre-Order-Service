@@ -38,6 +38,10 @@
     gap: 10px;
 }
 
+.signup .tnc{
+    text-align: center;
+}
+
 .signup form input:not([type='submit']) {
     width: 100%;
     padding: 10px;
