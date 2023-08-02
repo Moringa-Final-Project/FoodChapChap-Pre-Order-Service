@@ -54,7 +54,7 @@ def signup():
     password = request.form['password']
     role = request.form['role']
     phone_number = request.form['phone_number']
-    address = request.form['address'] 
+    address = request.form.get('address') 
 
 
     if not names or not email or not password or not role:
