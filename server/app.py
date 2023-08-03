@@ -131,7 +131,7 @@ def login():
 def protected():
     return "Protected"
 
-
+# ADMIN
 # ADMIN CRUD
 # CREATE RESTAURANT
 
@@ -241,22 +241,28 @@ def ud_restaurant(restaurant_id):
         response = make_response(jsonify({'message': 'Restaurant deleted successfully'}), 200)
         return response
 
-# # DELETE RESTAURANT
-# @app.route('/restaurants/<int:restaurant_id>', methods=['DELETE'])
-# @role_required(['admin'])
-# def delete_restaurant(restaurant_id):
-#     restaurant = Restaurant.query.get(restaurant_id)
+# ADMIN REPORTS
+# READ CUSTOMERS
+@app.route('/customers', methods=['GET'])
+@role_required(['admin'])
+def get_all_customers():
+    customers = User.query.filter_by(role='customer').all()
+    customer_list = [customer.to_dict() for customer in customers]
 
-#     if not restaurant:
-#         response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
-#         return response
+    response = make_response(jsonify(customer_list), 200)
+    return response
 
-#     # Delete the restaurant from the database
-#     db.session.delete(restaurant)
-#     db.session.commit()
+# READ RESTAURANT_OWNERS
+@app.route('/restaurant_owners', methods=['GET'])
+@role_required(['admin'])
+def get_all_restaurant_owners():
+    restaurant_owners = User.query.filter_by(role='restaurant_owner').all()
+    restaurant_owner_list = [owner.to_dict() for owner in restaurant_owners]
 
-#     response = make_response(jsonify({'message': 'Restaurant deleted successfully'}), 200)
-#     return response
+    response = make_response(jsonify(restaurant_owner_list), 200)
+    return response
+
+
 
 if __name__ == '__main__':
     app.run(port=5555)
