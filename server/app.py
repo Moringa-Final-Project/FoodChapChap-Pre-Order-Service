@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant
+from models import db, User, Restaurant, MenuItem
 
 
 app = Flask(__name__)
@@ -130,6 +130,7 @@ def protected():
     return "Protected"
 
 
+# ADMIN
 # ADMIN CRUD
 # CREATE RESTAURANT
 
@@ -239,34 +240,37 @@ def ud_restaurant(restaurant_id):
         response = make_response(jsonify({'message': 'Restaurant deleted successfully'}), 200)
         return response
 
-# # DELETE RESTAURANT
-# @app.route('/restaurants/<int:restaurant_id>', methods=['DELETE'])
-# @role_required(['admin'])
-# def delete_restaurant(restaurant_id):
-#     restaurant = Restaurant.query.get(restaurant_id)
+# ADMIN REPORTS
+# READ CUSTOMERS
+@app.route('/customers', methods=['GET'])
+@role_required(['admin'])
+def get_all_customers():
+    customers = User.query.filter_by(role='customer').all()
+    customer_list = [customer.to_dict() for customer in customers]
 
-#     if not restaurant:
-#         response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
-#         return response
+    response = make_response(jsonify(customer_list), 200)
+    return response
 
-#     # Delete the restaurant from the database
-#     db.session.delete(restaurant)
-#     db.session.commit()
+# READ RESTAURANT_OWNERS
+@app.route('/restaurant_owners', methods=['GET'])
+@role_required(['admin'])
+def get_all_restaurant_owners():
+    restaurant_owners = User.query.filter_by(role='restaurant_owner').all()
+    restaurant_owner_list = [owner.to_dict() for owner in restaurant_owners]
 
-#     response = make_response(jsonify({'message': 'Restaurant deleted successfully'}), 200)
-#     return response
+    response = make_response(jsonify(restaurant_owner_list), 200)
+    return response
 
 #CRETE NEW MENU ITEM
 @app.route('/menu/<int:restaurant_id>/', methods=['POST'])
 @role_required(['admin'])
-def create_menu_item():
+def create_menu_item(restaurant_id):
     data = request.get_json()
     if not data:
         return jsonify({'message': 'Invalid input data.'}), 400
         
     new_menu_item = MenuItem(
         restaurant_id=restaurant_id,
-        item_id=menu_id,
         item_name=data['item_name'],
         item_category=data['item_category'],
         item_description=data['item_description'],
