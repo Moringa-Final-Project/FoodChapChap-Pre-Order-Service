@@ -9,37 +9,37 @@ const placeOrderItems = [
     {
         id:1,
         title:'Pizza',
-        cover: 'https://b.zmtcdn.com/data/o2_assets/d0bd7c9405ac87f6aa65e31fe55800941632716575.png',
+        cover: 'https://www.allrecipes.com/thmb/iXKYAl17eIEnvhLtb4WxM7wKqTc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/240376-homemade-pepperoni-pizza-Beauty-3x4-1-6ae54059c23348b3b9a703b6a3067a44.jpg',
     },
     {
         id:2,
         title:'Burger',
-        cover: 'https://b.zmtcdn.com/data/dish_images/ccb7dc2ba2b054419f805da7f05704471634886169.png',
+        cover: 'https://assets.epicurious.com/photos/5c745a108918ee7ab68daf79/1:1/w_2560%2Cc_limit/Smashburger-recipe-120219.jpg'
     },
     {
         id:3,
         title:'Biryani',
-        cover: 'https://b.zmtcdn.com/data/dish_images/d19a31d42d5913ff129cafd7cec772f81639737697.png',
+        cover: 'https://www.madhuseverydayindian.com/wp-content/uploads/2022/11/easy-vegetable-biryani.jpg',
     },
     {
         id:4,
-        title:'Rolls',
-        cover: 'https://b.zmtcdn.com/data/dish_images/c2f22c42f7ba90d81440a88449f4e5891634806087.png',
+        title:'Wraps',
+        cover: 'https://i2-prod.coventrytelegraph.net/incoming/article14949292.ece/ALTERNATES/s1200b/0_unnamed.png',
     },
     {
         id:5,
         title:'Chicken',
-        cover: 'https://b.zmtcdn.com/data/dish_images/197987b7ebcd1ee08f8c25ea4e77e20f1634731334.png',
+        cover: 'https://leitesculinaria.com/wp-content/uploads/2021/02/batter-fried-chicken-fp.jpg',
     },
     {
         id:6,
         title:'Cake',
-        cover: 'https://b.zmtcdn.com/data/dish_images/d5ab931c8c239271de45e1c159af94311634805744.png',
+        cover: 'https://joyfoodsunshine.com/wp-content/uploads/2020/08/best-chocolate-cake-recipe-from-scratch-8-500x500.jpg',
     },
     {
         id:7,
         title:'Fried Rice',
-        cover: 'https://b.zmtcdn.com/data/o2_assets/e444ade83eb22360b6ca79e6e777955f1632716661.png',
+        cover: 'https://www.skabash.com/wp-content/uploads/2022/02/Fried-rice-2500x1584.jpg',
     },
     {
         id:8,
@@ -76,7 +76,7 @@ const PlaceOrderCollections = () => {
   return (
     <div className='place-order-collection'>
         <div className='max-width'>
-            <div className='collection-title'>Eat what makes you happy</div>
+            <div className='collection-title'>Get inspiration for your first order</div>
             <Slider {...settings}>
                 {placeOrderItems.map((item)=>{
                     return <PlaceOrderItem item={item} />

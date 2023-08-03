@@ -6,6 +6,7 @@ import PlaceOrder from './PlaceOrder'
 import DiningOut from './DiningOut'
 import Nightlife from './Nightlife'
 import PlaceOrderCollections from './PlaceOrderCollections'
+import RestaurantDisplay from './RestaurantDisplay'
 
 const Home = () => {
 
@@ -15,7 +16,8 @@ const Home = () => {
     <div>
         <Header />
         <TabOptions activeTab={activeTab} setActiveTab={setActiveTab} /> 
-        {getCorrectScreen(activeTab)} 
+        {getCorrectScreen(activeTab)}
+        <RestaurantDisplay />
         <Footer />   
     </div>
   )

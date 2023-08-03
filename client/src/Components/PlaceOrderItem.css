@@ -1,8 +1,8 @@
 .place-order-item-cover{
     height: 190px;
     width: 260px;
-    background-color: var(--primary-bg);
     box-shadow: var(--collection-shadow);
+    border-radius: 8px;
 }
 
 .place-order-item-image{
