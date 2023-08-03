@@ -354,6 +354,26 @@ def ud_menu_item_by_id(restaurant_id, menu_id):
         db.session.commit()
         return jsonify({'message': 'Menu item deleted successfully.'}), 200
 
+#CRETE NEW MENU ITEM
+@app.route('/menu/<int:restaurant_id>/', methods=['POST'])
+@role_required(['admin'])
+def create_menu_item():
+    data = request.get_json()
+    if not data:
+        return jsonify({'message': 'Invalid input data.'}), 400
+        
+    new_menu_item = MenuItem(
+        restaurant_id=restaurant_id,
+        item_id=menu_id,
+        item_name=data['item_name'],
+        item_category=data['item_category'],
+        item_description=data['item_description'],
+        price=data['price'],
+        customization_options=data['customization_options']
+    )
+    db.session.add(new_menu_item)
+    db.session.commit()
+    return jsonify(new_menu_item), 201
 
 # READ MENU OF A SPECIFIC RESTAURANT
 @app.route('/menu/<int:restaurant_id>/', methods=['GET'])
@@ -372,8 +392,6 @@ def get_menu_by_restaurant_id(restaurant_id):
 
     return jsonify(menu_items_list), 200
 
-
-
 # READ FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
 @app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['GET'])
 @role_required(['admin', 'customer'])
@@ -390,37 +408,19 @@ def get_menu_item_by_id(restaurant_id, menu_id):
         return jsonify({'message': 'Menu item not found.'}), 404
     return jsonify(menu_item), 200
 
-# CREATE, UPDATE & DELETE FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
-@app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['POST', 'PUT', 'DELETE'])
+# UPDATE & DELETE FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
+@app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['PUT', 'DELETE'])
 @role_required(['admin'])
 def ud_menu_item_by_id(restaurant_id, menu_id):
-    """PUT, POST, DELETE  a menu item in a specific restaurant
+    """PUT, DELETE  a menu item in a specific restaurant
 
     Args:
         restaurant_id (int): the unique restaurant id
         menu_id (int): the unique menu id
     """
     menu_item = MenuItem.query.filter_by(restaurant_id=restaurant_id, item_id=menu_id).first()
-
-    if request.method == 'POST':
-        data = request.get_json()
-        if not data:
-            return jsonify({'message': 'Invalid input data.'}), 400
-
-        new_menu_item = MenuItem(
-            restaurant_id=restaurant_id,
-            item_id=menu_id,
-            item_name=data['item_name'],
-            item_category=data['item_category'],
-            item_description=data['item_description'],
-            price=data['price'],
-            customization_options=data['customization_options']
-        )
-        db.session.add(new_menu_item)
-        db.session.commit()
-        return jsonify(new_menu_item), 201
-
-    elif request.method == 'PUT':
+    
+    if request.method == 'PUT':
         if not menu_item:
             return jsonify({'message': 'Menu item not found.'}), 404
 
