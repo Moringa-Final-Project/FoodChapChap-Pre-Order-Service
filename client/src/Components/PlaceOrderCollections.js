@@ -64,7 +64,6 @@ const placeOrderItems = [
 ];
 
 const settings = {
-    dots: true,
     infinite: true,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -74,7 +73,7 @@ const settings = {
 
 const PlaceOrderCollections = () => {
   return (
-    <div className='place-order-collection'>
+    <div className='place-order-collections'>
         <div className='max-width'>
             <div className='collection-title'>Get inspiration for your first order</div>
             <Slider {...settings}>

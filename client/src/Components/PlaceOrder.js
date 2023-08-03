@@ -1,6 +1,9 @@
 import React from 'react'
+import { restaurants } from './data'
 import Filters from './Filters'
 import PlaceOrderCollections from './PlaceOrderCollections';
+import TopBrands from './TopBrands';
+import ExploreSection from './ExploreSection';
 
 const placeOrderFilters=[
   {
@@ -31,6 +34,8 @@ const placeOrderFilters=[
   },
 ];
 
+const restaurantList = restaurants;
+
 const PlaceOrder = () => {
   return (
     <div>
@@ -38,6 +43,8 @@ const PlaceOrder = () => {
       <Filters filterList={placeOrderFilters} />
       </div>
       <PlaceOrderCollections />
+      <TopBrands />
+      <ExploreSection list={restaurantList} collectionName='Best Food in Nairobi' />
     </div>
   )
 }
