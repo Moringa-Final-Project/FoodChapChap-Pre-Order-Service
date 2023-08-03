@@ -40,7 +40,7 @@ const Login = () => {
           case 'admin':
             navigate('/admin-landing');
             break;
-          case 'restaurant':
+          case 'restaurant_owner':
             navigate('/restaurant-landing');
             break;
           default:
