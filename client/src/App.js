@@ -1,11 +1,10 @@
 import './App.css';
-import Restaurant from './Components/Restaurant/Restaurant';
+import LoginSignUpContainer from './LoginSignUpContainer';
 
 function App() {
   return (
-    <div>
-      <Restaurant />
-    </div>
+    <LoginSignUpContainer />
+    
   );
 }
 

@@ -1,0 +1,79 @@
+.signup{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: rgb(233, 139, 48);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.signup h1{
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+    color: black;
+    font-weight: bold;
+    padding: 15px 0;
+}
+
+.signup .menu{
+    width: 30%;
+    padding: 10px;
+    border: 2px solid black;
+    outline: none !important;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 0.99 rem;
+    color: black;
+}
+
+.signup form{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.signup .tnc{
+    text-align: center;
+}
+
+.signup form input:not([type='submit']) {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid black;
+    outline: none !important;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 0.99 rem;
+    color: black;
+}
+
+.signup form button{
+    width: 100%;
+    padding: 10px;
+    border: 2px solid black;
+    outline: none !important;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 0.99 rem;
+    color: black;
+    background: white;
+    cursor: pointer;
+    transition: 0.3s linear;
+}
+
+.signup form button:hover{
+    background: black;
+    color: white;
+}
