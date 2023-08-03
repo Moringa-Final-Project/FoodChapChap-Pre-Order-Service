@@ -1,9 +1,9 @@
 import './App.css';
-import LoginSignUpContainer from './LoginSignUpContainer';
+import Home from './Components/Home';
 
 function App() {
   return (
-    <LoginSignUpContainer />
+    <Home />
     
   );
 }
