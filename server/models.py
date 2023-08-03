@@ -92,6 +92,7 @@ class MenuItem(db.Model, SerializerMixin):
     __tablename__ = 'menuitems'
 
     item_id = db.Column(db.Integer, primary_key=True)
+    restaurant_id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(200), nullable=False)
     item_category = db.Column(db.String(100), nullable=False)
     item_description = db.Column(db.String(500))
