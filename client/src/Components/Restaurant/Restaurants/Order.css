@@ -1,0 +1,43 @@
+.order-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 cards per row */
+    grid-gap: 20px;
+  }
+  
+  .order-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .order-item-image {
+    max-width: 100px; /* Adjust the size as needed */
+    max-height: 100px; /* Adjust the size as needed */
+    margin-bottom: 10px;
+  }
+  
+  .order-card h3 {
+    margin-bottom: 5px;
+  }
+  
+  .order-card-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  .reject-button,
+  .ready-button {
+    padding: 8px 16px;
+    background-color: orange;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .order-status-message {
+    font-weight: bold;
+    color: green; /* Adjust the color as needed */
+    margin-top: 10px;
+  }
+  
