@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
+  const navigate = useNavigate(); // Access the navigation function
 
   const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
@@ -14,7 +16,7 @@ const Login = () => {
     formData.append('email', email);
     formData.append('password', password);
 
-    fetch('http://127.0.0.1:5000/login', {
+    fetch('http://127.0.0.1:5555/login', {
       method: 'POST',
       body: formData,
     })
@@ -27,6 +29,24 @@ const Login = () => {
       })
       .then((data) => {
         console.log(data);
+        // Assuming the server returns the user role in the response
+        const userRole = data.role;
+
+        // Redirect to the appropriate landing page based on the user role
+        switch (userRole) {
+          case 'customer':
+            navigate('/customer-landing');
+            break;
+          case 'admin':
+            navigate('/admin-landing');
+            break;
+          case 'restaurant':
+            navigate('/restaurant-landing');
+            break;
+          default:
+            // Handle unexpected roles or error cases
+            break;
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -61,4 +81,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;
