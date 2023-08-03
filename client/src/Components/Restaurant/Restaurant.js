@@ -1,4 +1,5 @@
 import React from 'react';
+import './Restaurants.css'
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import Menu from './Restaurants/Menu';
 import OrderList from './Restaurants/Order';

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
+import './Menu.css'
 
 function Menu(){
   const [menuItems, setMenuItems] = useState([
-    { id: 101, item: 'Margherita Pizza', price: 10.99 },
-    { id: 102, item: 'Classic Burger', price: 8.99 },
-    { id: 103, item: 'Creamy Alfredo Pasta', price: 12.49 },
-    { id: 104, item: 'French Fries', price: 11.11},
-    { id: 105, item: 'Chocolate Cake', price: 7.6},
-    {id: 106, item: 'Sushi Roll', price: 14.88},
-    {id: 107, item: 'Grilled Salmon', price: 18.88},
-    {id: 108, item: 'Steak and Shrimp', price: 12.88}
+    { id: 101, item: 'Margherita Pizza', price: 10.99, promos: 10 },
+    { id: 102, item: 'Classic Burger', price: 8.99, promos: 11 },
+    { id: 103, item: 'Creamy Alfredo Pasta', price: 12.49, promos: 15 },
+    { id: 104, item: 'French Fries', price: 11.11, promos: 19},
+    { id: 105, item: 'Chocolate Cake', price: 7.6, promos: 5},
+    {id: 106, item: 'Sushi Roll', price: 14.88, promos: 20},
+    {id: 107, item: 'Grilled Salmon', price: 18.88, promos: 12},
+    {id: 108, item: 'Steak and Shrimp', price: 12.88, promos: 15}
     // Add more menu items here
   ]);
 
@@ -55,6 +56,7 @@ function Menu(){
           <div key={item.id} className="menu-card">
             <h3>{item.item}</h3>
             <p>Price: ${item.price}</p>
+            <p>Promo: %{item.promos}</p>
             <div className="menu-card-buttons">
               <button className="delete-button" onClick={() => handleDelete(item.id)}>
                 Delete

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Order.css'
 
 const OrderHistory = ({ orders }) => {
   const [orderStatus, setOrderStatus] = useState({});
