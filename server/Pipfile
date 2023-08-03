@@ -11,6 +11,8 @@ faker = "*"
 sqlalchemy-serializer = "*"
 flask-restful = "*"
 flask-jwt-extended = "*"
+flask-cors = "*"
+importlib-metadata = "*"
 
 [dev-packages]
 
