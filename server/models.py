@@ -20,6 +20,19 @@ class User(db.Model, SerializerMixin):
     phone_number = db.Column(db.String(10), nullable=False)
     address = db.Column(db.String(200), nullable=True)
 
+    restaurants = db.relationship('Restaurant', backref='user')
+
+    def to_dict(self):
+        return{
+            'user_id': self.user_id,
+            'names': self.names,
+            'email': self.email,
+            'password': self.password_hash,
+            'role': self.role,
+            'phone_number': self.phone_number,
+            'address': self.address
+        }
+
     def __repr__(self):
         return f'User(user_id={self.user_id}, names={self.names})'
     
@@ -50,12 +63,27 @@ class Restaurant(db.Model, SerializerMixin):
     __tablename__ = 'restaurants'
 
     restaurant_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', name='fk_user_id_restaurants'))
     restaurant_name = db.Column(db.String(200), nullable=False)
+    restaurant_image = db.Column(db.String(200), nullable=False)
     location = db.Column(db.String(200), nullable=False)
     ambience = db.Column(db.String(100), nullable=False)
     cuisines_offered = db.Column(db.String(200), nullable=False)
     operating_hours = db.Column(db.String(200), nullable=False)
     contact_info = db.Column(db.String(200), nullable=False)
+
+    def to_dict(self):
+        return{
+            'user_id': self.user_id,
+            'restaurant_id': self.restaurant_id,
+            'restaurant_name': self.restaurant_name,
+            'restaurant_image': self.restaurant_image,
+            'location': self.location,
+            'ambience': self.ambience,
+            'cuisines_offered': self.cuisines_offered,
+            'contact_info': self.contact_info
+
+        }
     
     def __repr__(self):
         return f'Restaurant(restaurant_id={self.restaurant_id}, restaurant_name={self.restaurant_name})'

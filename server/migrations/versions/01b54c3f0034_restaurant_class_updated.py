@@ -1,8 +1,8 @@
-"""User Model updated
+"""Restaurant class updated
 
-Revision ID: 38ee8ccb97eb
+Revision ID: 01b54c3f0034
 Revises: 
-Create Date: 2023-08-01 22:29:41.875272
+Create Date: 2023-08-02 16:57:08.099727
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '38ee8ccb97eb'
+revision = '01b54c3f0034'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -71,6 +71,7 @@ def upgrade():
     op.create_table('restaurants',
     sa.Column('restaurant_id', sa.Integer(), nullable=False),
     sa.Column('restaurant_name', sa.String(length=200), nullable=False),
+    sa.Column('restaurant_image', sa.String(length=200), nullable=False),
     sa.Column('location', sa.String(length=200), nullable=False),
     sa.Column('ambience', sa.String(length=100), nullable=False),
     sa.Column('cuisines_offered', sa.String(length=200), nullable=False),
@@ -90,7 +91,7 @@ def upgrade():
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password_hash', sa.String(length=128), nullable=False),
     sa.Column('role', sa.String(length=20), nullable=False),
-    sa.Column('phone_number', sa.String(length=15), nullable=True),
+    sa.Column('phone_number', sa.String(length=10), nullable=False),
     sa.Column('address', sa.String(length=200), nullable=True),
     sa.PrimaryKeyConstraint('user_id'),
     sa.UniqueConstraint('email'),
