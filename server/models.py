@@ -18,7 +18,6 @@ class User(db.Model, SerializerMixin):
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(20), nullable=False) 
     phone_number = db.Column(db.String(10), nullable=False)
-    address = db.Column(db.String(200), nullable=True)
 
     restaurants = db.relationship('Restaurant', backref='user')
 
@@ -30,7 +29,6 @@ class User(db.Model, SerializerMixin):
             'password': self.password_hash,
             'role': self.role,
             'phone_number': self.phone_number,
-            'address': self.address
         }
 
     def __repr__(self):

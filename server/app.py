@@ -57,8 +57,7 @@ def signup():
     email = request.form['email']
     password = request.form['password']
     role = request.form['role']
-    phone_number = request.form['phone_number']
-    address = request.form.get('address') 
+    phone_number = request.form['phone_number'] 
 
 
     if not names or not email or not password or not role:
@@ -81,8 +80,7 @@ def signup():
         email = email,
         password_hash=generate_password_hash(password),
         role = role,
-        phone_number = phone_number,
-        address = address
+        phone_number = phone_number
     )
 
     db.session.add(new_user) 
