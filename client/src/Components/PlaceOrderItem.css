@@ -5,11 +5,15 @@
     border-radius: 8px;
 }
 
+.place-order-item-cover:hover{
+    transform: translateX(0.4rem) translateY(-1rem);
+}
+
 .place-order-item-image{
     object-fit: cover;
     height: 100%;
     width: 100%;
-    border-radius: 8px;
+    border-radius: inherit;
 }
 
 .place-order-item-title{

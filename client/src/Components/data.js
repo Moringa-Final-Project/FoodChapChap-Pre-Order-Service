@@ -1,7 +1,7 @@
 export const restaurants = [
     {
         id:1,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -20,7 +20,7 @@ export const restaurants = [
     },
     {
         id:2,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -39,7 +39,7 @@ export const restaurants = [
     },
     {
         id:3,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -58,7 +58,7 @@ export const restaurants = [
     },
     {
         id:4,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -77,7 +77,7 @@ export const restaurants = [
     },
     {
         id:5,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -96,7 +96,7 @@ export const restaurants = [
     },
     {
         id:6,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -115,7 +115,7 @@ export const restaurants = [
     },
     {
         id:7,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -134,7 +134,7 @@ export const restaurants = [
     },
     {
         id:8,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -153,7 +153,7 @@ export const restaurants = [
     },
     {
         id:9,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -172,7 +172,7 @@ export const restaurants = [
     },
     {
         id:10,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -191,7 +191,7 @@ export const restaurants = [
     },
     {
         id:11,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -210,7 +210,7 @@ export const restaurants = [
     },
     {
         id:12,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -229,7 +229,7 @@ export const restaurants = [
     },
     {
         id:13,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -248,7 +248,7 @@ export const restaurants = [
     },
     {
         id:14,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
@@ -267,7 +267,7 @@ export const restaurants = [
     },
     {
         id:15,
-        image_url: 'https://b.zmtcdn.com/data/brand_creatives/logos/d46560ce3d7b84605cab233c5abc65f3_1625165852.png?output-format=webp',
+        image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
         restaurant_name: 'Pizza Hut',
         location: 'Westlands',
         rating: '5',
