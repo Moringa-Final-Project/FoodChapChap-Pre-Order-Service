@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant
+from models import db, User, Restaurant, MenuItem
 
 
 app = Flask(__name__)
@@ -261,7 +261,95 @@ def get_all_restaurant_owners():
     response = make_response(jsonify(restaurant_owner_list), 200)
     return response
 
+#CRETE NEW MENU ITEM
+@app.route('/menu/<int:restaurant_id>/', methods=['POST'])
+@role_required(['admin'])
+def create_menu_item(restaurant_id):
+    data = request.get_json()
+    if not data:
+        return jsonify({'message': 'Invalid input data.'}), 400
+        
+    new_menu_item = MenuItem(
+        restaurant_id=restaurant_id,
+        item_name=data['item_name'],
+        item_category=data['item_category'],
+        item_description=data['item_description'],
+        price=data['price'],
+        customization_options=data['customization_options']
+    )
+    db.session.add(new_menu_item)
+    db.session.commit()
+    return jsonify(new_menu_item), 201
 
+# READ MENU OF A SPECIFIC RESTAURANT
+@app.route('/menu/<int:restaurant_id>/', methods=['GET'])
+@role_required(['admin', 'customer'])
+def get_menu_by_restaurant_id(restaurant_id):
+    """Get method for menu of a particular restaurant
+
+    Args:
+        restaurant_id (int): The restaurant unique id
+    """
+    menu_items = MenuItem.query.filter_by(restaurant_id=restaurant_id).all()
+    if not menu_items:
+        return jsonify({'message': 'No menu items found for this restaurant.'}), 404
+        
+    menu_items_list = [menu_item.to_dict() for menu_item in menu_items]
+
+    return jsonify(menu_items_list), 200
+
+# READ FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
+@app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['GET'])
+@role_required(['admin', 'customer'])
+def get_menu_item_by_id(restaurant_id, menu_id):
+    """Get the menu items from a specific restaurant
+
+    Args:
+        restaurant_id (int): the unique restaurant id
+        menu_id (int): the unique menu id
+    """
+    menu_item = MenuItem.query.filter_by(restaurant_id=restaurant_id, item_id=menu_id).first()
+
+    if not menu_item:
+        return jsonify({'message': 'Menu item not found.'}), 404
+    return jsonify(menu_item), 200
+
+# UPDATE & DELETE FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
+@app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['PUT', 'DELETE'])
+@role_required(['admin'])
+def ud_menu_item_by_id(restaurant_id, menu_id):
+    """PUT, DELETE  a menu item in a specific restaurant
+
+    Args:
+        restaurant_id (int): the unique restaurant id
+        menu_id (int): the unique menu id
+    """
+    menu_item = MenuItem.query.filter_by(restaurant_id=restaurant_id, item_id=menu_id).first()
+    
+    if request.method == 'PUT':
+        if not menu_item:
+            return jsonify({'message': 'Menu item not found.'}), 404
+
+        data = request.get_json()
+        if not data:
+            return jsonify({'message': 'Invalid input data.'}), 400
+
+        menu_item.item_name = data['item_name']
+        menu_item.item_category = data['item_category']
+        menu_item.item_description = data['item_description']
+        menu_item.price = data['price']
+        menu_item.customization_options = data['customization_options']
+
+        db.session.commit()
+        return jsonify(menu_item), 200
+
+    elif request.method == 'DELETE':
+        if not menu_item:
+            return jsonify({'message': 'Menu item not found.'}), 404
+
+        db.session.delete(menu_item)
+        db.session.commit()
+        return jsonify({'message': 'Menu item deleted successfully.'}), 200
 
 if __name__ == '__main__':
     app.run(port=5555)
