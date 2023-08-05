@@ -53,11 +53,12 @@ api.add_resource(Index, '/')
 # SIGNUP ROUTE
 @app.route('/signup', methods = ['POST'])
 def signup():
-    names = request.form['names']
-    email = request.form['email']
-    password = request.form['password']
-    role = request.form['role']
-    phone_number = request.form['phone_number'] 
+    data = request.json
+    names = data.get('names')
+    email = data.get('email')
+    password = data.get('password')
+    role = data.get('role')
+    phone_number = data.get('phone_number')
 
 
     if not names or not email or not password or not role:
