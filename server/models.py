@@ -65,6 +65,8 @@ class Restaurant(db.Model, SerializerMixin):
     operating_hours = db.Column(db.String(200), nullable=False)
     contact_info = db.Column(db.String(200), nullable=False)
 
+
+    loyaltyprogram = db.relationship('LoyaltyProgram', backref = 'restaurant', uselist = False)
     promotions = db.relationship('Promotion', back_populates='restaurant', foreign_keys='Promotion.restaurant_id')
     menu_items = db.relationship('MenuItem', back_populates='restaurant')
     staff_mapping = db.relationship('StaffMapping', back_populates='restaurant')
@@ -191,11 +193,17 @@ class LoyaltyProgram(db.Model, SerializerMixin):
     __tablename__ = 'loyaltyprograms'
 
     loyalty_program_id = db.Column(db.Integer, primary_key=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id', name='fk_restaurant_id_loyaltyprograms'))
     loyalty_points = db.Column(db.Integer, nullable=False)
     loyalty_tier = db.Column(db.String(100))
 
-    #customer = db.relationship('User', back_populates='loyalty_program')
+    def to_dict(self):
+        return{
+            'loyalty_program_id': self.loyalty_program_id,
+            'loyalty_points': self.loyalty_points,
+            'loyalty_tier': self.loyalty_tier
+
+        }
 
     def __repr__(self):
         return f'LoyaltyProgram(loyalty_program_id={self.loyalty_program_id}, loyalty_points={self.loyalty_points})'
