@@ -137,6 +137,49 @@ class Order(db.Model, SerializerMixin):
     def __repr__(self):
         return f'Order(order_id={self.order_id}, order_status={self.order_status})'
     
+    
+    
+    # Create an order
+def create_order(user_id, restaurant_id, order_status, order_total, order_date):
+    new_order = Order(
+        user_id=user_id,
+        restaurant_id=restaurant_id,
+        order_status=order_status,
+        order_total=order_total,
+        order_date=order_date
+    )
+    db.session.add(new_order)
+    db.session.commit()
+    return new_order
+
+
+# Read orders
+def get_orders():
+    return Order.query.all()
+
+# Read an order by ID
+def get_order_by_id(order_id):
+    return Order.query.get(order_id)
+
+
+# Update an order's status
+def update_order_status(order_id, new_status):
+    order = Order.query.get(order_id)
+    if order:
+        order.order_status = new_status
+        db.session.commit()
+        return True
+    return False    
+ 
+# Delete an order
+def delete_order(order_id):
+    order = Order.query.get(order_id)
+    if order:
+        db.session.delete(order)
+        db.session.commit()
+        return True
+    return False 
+ 
  
 # ORDER ITEMS
 class OrderItem(db.Model, SerializerMixin):
@@ -152,6 +195,44 @@ class OrderItem(db.Model, SerializerMixin):
 
     def __repr__(self):
         return f'OrderItem(order_item_id={self.order_item_id}, subtotal={self.subtotal})'
+    
+    
+    # Create an order item
+def create_order_item(order_id, item_id, quantity, subtotal):
+    new_order_item = OrderItem(
+        order_id=order_id,
+        item_id=item_id,
+        quantity=quantity,
+        subtotal=subtotal
+    )
+    db.session.add(new_order_item)
+    db.session.commit()
+    return new_order_item
+
+
+# Read order items by order ID
+def get_order_items_by_order_id(order_id):
+    return OrderItem.query.filter_by(order_id=order_id).all()
+
+
+# Update an order item's details
+def update_order_item(order_item_id, new_quantity, new_subtotal):
+    order_item = OrderItem.query.get(order_item_id)
+    if order_item:
+        order_item.quantity = new_quantity
+        order_item.subtotal = new_subtotal
+        db.session.commit()
+        return True
+    return False
+
+# Delete an order item
+def delete_order_item(order_item_id):
+    order_item = OrderItem.query.get(order_item_id)
+    if order_item:
+        db.session.delete(order_item)
+        db.session.commit()
+        return True
+    return False
     
 
 # PAYMENT TRANSACTIONS

@@ -265,7 +265,7 @@ def get_all_restaurant_owners():
     response = make_response(jsonify(restaurant_owner_list), 200)
     return response
 
-#CRETE NEW MENU ITEM
+#CREATE NEW MENU ITEM
 @app.route('/menu/<int:restaurant_id>/', methods=['POST'])
 @role_required(['admin'])
 def create_menu_item(restaurant_id):
@@ -444,7 +444,142 @@ def ud_loyalty_program(restaurant_id, loyalty_program_id):
 
         response = make_response(jsonify({'message': 'Loyalty program deleted successfully'}), 200)
         return response     
-      
-      
+
+
+
+# CREATE AN ORDER
+@app.route('/orders', methods=['POST'])
+@role_required(['customer'])
+def create_order():
+    data = request.json
+
+    user_id = get_jwt_identity()  # Get the logged-in user's ID
+    restaurant_id = data.get('restaurant_id')
+    order_status = data.get('order_status')
+    order_total = data.get('order_total')
+    order_date = data.get('order_date')
+
+    if not restaurant_id or not order_status or not order_total or not order_date:
+        response = make_response(jsonify({"error": "Please provide all required fields"}), 400)
+        return response
+    
+    new_order = create_order(user_id, restaurant_id, order_status, order_total, order_date)
+    response_dict = new_order.to_dict()
+
+    response = make_response(jsonify(response_dict), 201)
+    return response
+
+# READ ORDERS
+@app.route('/orders', methods=['GET'])
+@role_required(['admin', 'customer'])
+def get_orders():
+    orders = get_orders()
+    orders_list = [order.to_dict() for order in orders]
+
+    response = make_response(jsonify(orders_list), 200)
+    return response
+
+# READ AN ORDER
+@app.route('/orders/<int:order_id>', methods=['GET'])
+@role_required(['admin', 'customer'])
+def get_order(order_id):
+    order = get_order_by_id(order_id)
+    if not order:
+        response = make_response(jsonify({'error': 'Order not found'}), 404)
+        return response
+
+    response = make_response(jsonify(order.to_dict()), 200)
+    return response
+
+# UPDATE AN ORDER
+@app.route('/orders/<int:order_id>', methods=['PATCH'])
+@role_required(['admin', 'customer'])
+def update_order(order_id):
+    data = request.json
+    new_order_status = data.get('order_status')
+
+    if not new_order_status:
+        response = make_response(jsonify({"error": "Please provide the new order status"}), 400)
+        return response
+
+    if update_order_status(order_id, new_order_status):
+        response = make_response(jsonify({'message': 'Order status updated successfully'}), 200)
+        return response
+    else:
+        response = make_response(jsonify({'error': 'Order not found'}), 404)
+        return response
+
+# DELETE AN ORDER
+@app.route('/orders/<int:order_id>', methods=['DELETE'])
+@role_required(['admin', 'customer'])
+def delete_order(order_id):
+    if delete_order(order_id):
+        response = make_response(jsonify({'message': 'Order deleted successfully'}), 200)
+        return response
+    else:
+        response = make_response(jsonify({'error': 'Order not found'}), 404)
+        return response
+
+# CREATE AN ORDER ITEM
+@app.route('/order_items', methods=['POST'])
+@role_required(['customer'])
+def create_order_item():
+    data = request.json
+
+    order_id = data.get('order_id')
+    item_id = data.get('item_id')
+    quantity = data.get('quantity')
+    subtotal = data.get('subtotal')
+
+    if not order_id or not item_id or not quantity or not subtotal:
+        response = make_response(jsonify({"error": "Please provide all required fields"}), 400)
+        return response
+    
+    new_order_item = create_order_item(order_id, item_id, quantity, subtotal)
+    response_dict = new_order_item.to_dict()
+
+    response = make_response(jsonify(response_dict), 201)
+    return response
+
+# READ ORDER ITEMS BY ORDER ID
+@app.route('/order_items/<int:order_id>', methods=['GET'])
+@role_required(['admin', 'customer'])
+def get_order_items(order_id):
+    order_items = get_order_items_by_order_id(order_id)
+    order_items_list = [item.to_dict() for item in order_items]
+
+    response = make_response(jsonify(order_items_list), 200)
+    return response
+
+# UPDATE AN ORDER ITEM
+@app.route('/order_items/<int:order_item_id>', methods=['PATCH'])
+@role_required(['admin', 'customer'])
+def update_order_item(order_item_id):
+    data = request.json
+    new_quantity = data.get('quantity')
+    new_subtotal = data.get('subtotal')
+
+    if not new_quantity or not new_subtotal:
+        response = make_response(jsonify({"error": "Please provide the new quantity and subtotal"}), 400)
+        return response
+
+    if update_order_item(order_item_id, new_quantity, new_subtotal):
+        response = make_response(jsonify({'message': 'Order item updated successfully'}), 200)
+        return response
+    else:
+        response = make_response(jsonify({'error': 'Order item not found'}), 404)
+        return response
+
+# DELETE AN ORDER ITEM
+@app.route('/order_items/<int:order_item_id>', methods=['DELETE'])
+@role_required(['admin', 'customer'])
+def delete_order_item(order_item_id):
+    if delete_order_item(order_item_id):
+        response = make_response(jsonify({'message': 'Order item deleted successfully'}), 200)
+        return response
+    else:
+        response = make_response(jsonify({'error': 'Order item not found'}), 404)
+        return response
+
 if __name__ == '__main__':
     app.run(port=5555)
