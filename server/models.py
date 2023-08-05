@@ -65,11 +65,11 @@ class Restaurant(db.Model, SerializerMixin):
 
 
     loyaltyprogram = db.relationship('LoyaltyProgram', backref = 'restaurant', uselist = False)
-    promotions = db.relationship('Promotion', back_populates='restaurant', foreign_keys='Promotion.restaurant_id')
+    promotions = db.relationship('Promotion', backref = 'restaurant')
     menu_items = db.relationship('MenuItem', back_populates='restaurant')
-    staff_mapping = db.relationship('StaffMapping', back_populates='restaurant')
-    reviews = db.relationship('Review', back_populates='restaurant')
-    orders = db.relationship('Order', back_populates='restaurant')
+    # staff_mapping = db.relationship('StaffMapping', back_populates='restaurant')
+    # reviews = db.relationship('Review', back_populates='restaurant')
+    # orders = db.relationship('Order', back_populates='restaurant')
    # customers = db.relationship('Customer', back_populates='restaurant')
 
     def to_dict(self):
@@ -124,15 +124,15 @@ class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
 
     order_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    # restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
     order_status = db.Column(db.String(100), nullable=False)
     order_total = db.Column(db.Float, nullable=False)
     order_date = db.Column(db.DateTime, nullable=False)
 
-    items = db.relationship('OrderItem', back_populates='order')
-    payments = db.relationship('PaymentTransaction', back_populates='order')
-    restaurant = db.relationship('Restaurant', back_populates='orders')
+    # items = db.relationship('OrderItem', back_populates='order')
+    # payments = db.relationship('PaymentTransaction', back_populates='order')
+    # restaurant = db.relationship('Restaurant', back_populates='orders')
 
     def __repr__(self):
         return f'Order(order_id={self.order_id}, order_status={self.order_status})'
@@ -143,12 +143,12 @@ class OrderItem(db.Model, SerializerMixin):
     __tablename__ = 'orderitems'
 
     order_item_id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'))
-    item_id = db.Column(db.Integer, db.ForeignKey('menuitems.item_id'))
+    # order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'))
+    # item_id = db.Column(db.Integer, db.ForeignKey('menuitems.item_id'))
     quantity = db.Column(db.Integer, nullable=False)
     subtotal = db.Column(db.Float, nullable=False)
 
-    order = db.relationship('Order', back_populates='items')
+    # order = db.relationship('Order', back_populates='items')
 
     def __repr__(self):
         return f'OrderItem(order_item_id={self.order_item_id}, subtotal={self.subtotal})'
@@ -159,12 +159,12 @@ class PaymentTransaction(db.Model, SerializerMixin):
     __tablename__ = 'paymenttransactions'
 
     transaction_id = db.Column(db.Integer, primary_key=True)
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'))
+    # order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'))
     payment_date = db.Column(db.DateTime, nullable=False)
     payment_amount = db.Column(db.Float, nullable=False)
     payment_status = db.Column(db.String(100), nullable=False)
 
-    order = db.relationship('Order', back_populates='payments')
+    # order = db.relationship('Order', back_populates='payments')
 
     def __repr__(self):
         return f'PaymentTransaction(transaction_id={self.transaction_id}, payment_status={self.payment_status})'
@@ -175,12 +175,12 @@ class Review(db.Model, SerializerMixin):
     __tablename__ = 'reviews'
 
     review_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
+    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    # restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
     review_text = db.Column(db.Text, nullable=False)
     review_rating = db.Column(db.Integer, nullable=False)
 
-    restaurant = db.relationship('Restaurant', back_populates='reviews')
+    # restaurant = db.relationship('Restaurant', back_populates='reviews')
 
     def __repr__(self):
         return f'Review(review_id={self.review_id}, review_text={self.review_text})'
@@ -212,14 +212,26 @@ class Promotion(db.Model, SerializerMixin):
     __tablename__ = 'promotions'
 
     promotion_id = db.Column(db.Integer, primary_key=True)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id', name='fk_restaurant_id_promotions'))
     promotion_name = db.Column(db.String(200), nullable=False)
     promotion_description = db.Column(db.Text)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    discount_amount = db.Column(db.Float, nullable=False)
+    discount_percentage = db.Column(db.Float, nullable=False)
+    active =db.Column(db.Boolean, default=True)
 
-    restaurant = db.relationship('Restaurant', back_populates='promotions')
+    def to_dict(self):
+        return {
+            'promotion_id': self.promotion_id,
+            'promotion_name': self.promotion_name,
+            'promotion_description': self.promotion_description,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'discount_percentage': self.discount_percentage,
+            'active': self.active
+
+        }
+
 
     def __repr__(self):
         return f'Promotion(promotion_id={self.promotion_id}, promotion_name={self.promotion_name})'
@@ -230,11 +242,11 @@ class StaffMapping(db.Model, SerializerMixin):
     __tablename__ = 'mappings'
 
     staff_id = db.Column(db.Integer, primary_key=True)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
+    # restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
     staff_name = db.Column(db.String(100), nullable=False)
     staff_role = db.Column(db.String(100), nullable=False)
 
-    restaurant = db.relationship('Restaurant', back_populates='staff_mapping')
+    # restaurant = db.relationship('Restaurant', back_populates='staff_mapping')
 
     def __repr__(self):
         return f'StaffMapping(staff_id={self.staff_id}, staff_name={self.staff_name})'
