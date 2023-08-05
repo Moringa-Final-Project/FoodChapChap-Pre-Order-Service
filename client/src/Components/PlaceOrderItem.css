@@ -3,10 +3,11 @@
     width: 260px;
     box-shadow: var(--collection-shadow);
     border-radius: 8px;
+    transition: all 0.5s ease;
 }
 
 .place-order-item-cover:hover{
-    transform: translateX(0.4rem) translateY(-1rem);
+    transform: translate3d(0.5rem, 0.1rem, -10rem);;
 }
 
 .place-order-item-image{

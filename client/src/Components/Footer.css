@@ -55,13 +55,13 @@ ul{
 	font-weight: 300;
 	color: #000000;
 	display: block;
-	transition: all 0.3s ease;
+	transition: all 0.5s ease;
 }
 .footer-col ul li a:hover{
 	color: var(--foodchap-orange);
 	padding-left: 8px;
 }
-.footer-col .social-links a{
+.footer-col .social-links .icon{
 	display: inline-block;
 	height: 40px;
 	width: 40px;
@@ -69,13 +69,13 @@ ul{
 	margin:0 10px 10px 0;
 	text-align: center;
 	line-height: 40px;
-	border-radius: 50%;
-	color: #ffffff;
+	border-radius: 20%;
+	color: #000000;
 	transition: all 0.5s ease;
 }
-.footer-col .social-links a:hover{
-	color: #24262b;
-	background-color: #ffffff;
+.footer-col .social-links .icon:hover{
+    transform: translateX(0.4rem) translateY(-1rem);
+    color: var(--foodchap-orange);
 }
 
 /*responsive*/
