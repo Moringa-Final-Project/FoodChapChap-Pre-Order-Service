@@ -13,7 +13,6 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     role = db.Column(db.String(20), nullable=False) 
-    image = db.Column(db.String)
     phone_number = db.Column(db.String(10), nullable=False)
 
     restaurants = db.relationship('Restaurant', backref='user')
@@ -25,7 +24,6 @@ class User(db.Model, SerializerMixin):
             'email': self.email,
             'password': self.password_hash,
             'role': self.role,
-            'image': self.image,
             'phone_number': self.phone_number,
         }
 
