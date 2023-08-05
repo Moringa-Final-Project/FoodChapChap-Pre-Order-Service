@@ -1,10 +1,11 @@
 from flask import Flask, request, make_response, jsonify, session
+from datetime import datetime
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant, LoyaltyProgram, MenuItem
+from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion
 
 
 
@@ -443,7 +444,113 @@ def ud_loyalty_program(restaurant_id, loyalty_program_id):
         db.session.commit()
 
         response = make_response(jsonify({'message': 'Loyalty program deleted successfully'}), 200)
-        return response     
+        return response    
+
+# PROMOTIONS CRUD
+# CREATE
+@app.route('/restaurants/<int:restaurant_id>/promotions', methods=['POST'])
+@role_required(['restaurant_owner'])
+def create_promotion(restaurant_id):
+    data = request.json
+
+    promotion_name = data.get('promotion_name')
+    promotion_description = data.get('promotion_description')
+    start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d %H:%M:%S')
+    end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d %H:%M:%S')
+    discount_percentage = float(data.get('discount_percentage'))
+    active = data.get('active', True)
+
+    restaurant = Restaurant.query.get(restaurant_id)
+    if not restaurant:
+        response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+        return response
+
+    new_promotion = Promotion(
+        restaurant_id=restaurant_id,
+        promotion_name=promotion_name,
+        promotion_description=promotion_description,
+        start_date=start_date,
+        end_date=end_date,
+        discount_percentage=discount_percentage,
+        active=active
+    )
+
+    
+    db.session.add(new_promotion)
+    db.session.commit()
+
+    response = make_response(jsonify({'message': 'Promotion created successfully'}), 201)
+    return response
+
+#UPDATE AND DELETE
+@app.route('/restaurants/<int:restaurant_id>/promotions/<int:promotion_id>', methods=['PATCH', 'DELETE'])
+@role_required(['restaurant_owner'])
+def ud_promotion(restaurant_id, promotion_id):
+    if request.method == 'PATCH':
+        data = request.json
+        promotion_name = data.get('promotion_name')
+        promotion_description = data.get('promotion_description')
+        start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d %H:%M:%S')
+        end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d %H:%M:%S')
+        discount_percentage = float(data.get('discount_percentage'))
+        active = data.get('active', True)
+
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        promotion = Promotion.query.filter_by(promotion_id=promotion_id, restaurant_id=restaurant_id).first()
+        if not promotion:
+            response = make_response(jsonify({'error': 'Promotion not found'}), 404)
+            return response
+
+        promotion.promotion_name = promotion_name
+        promotion.promotion_description = promotion_description
+        promotion.start_date = start_date
+        promotion.end_date = end_date
+        promotion.discount_percentage = discount_percentage
+        promotion.active = active
+
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Promotion updated successfully'}), 200)
+        return response
+    
+    elif request.method == 'DELETE':
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        promotion = Promotion.query.filter_by(promotion_id=promotion_id, restaurant_id=restaurant_id).first()
+        if not promotion:
+            response = make_response(jsonify({'error': 'Promotion not found'}), 404)
+            return response
+
+        # Delete the promotion
+        db.session.delete(promotion)
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Promotion deleted successfully'}), 200)
+        return response
+
+# READ
+@app.route('/restaurants/<int:restaurant_id>/promotions', methods=['GET'])
+@role_required(['restaurant_owner', 'customer']) 
+def get_promotions(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+
+    if not restaurant:
+        response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+        return response
+
+    promotions = Promotion.query.filter_by(restaurant_id=restaurant_id).all()
+
+    serialized_promotions = [promotion.to_dict() for promotion in promotions]
+
+    response = make_response(jsonify({'promotions': serialized_promotions}), 200)
+    return response
       
       
 if __name__ == '__main__':
