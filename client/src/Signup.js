@@ -45,6 +45,26 @@ const Signup = () => {
     <div className='signup'>
         <h1>Sign Up</h1>
         <form onSubmit={handleSubmit}>
+        <div className='radio-button'>
+          <label>
+            <input
+              type='radio'
+              value='customer'
+              checked={role === 'customer'}
+              onChange={() => setRole('customer')}
+            />
+            Customer
+          </label>
+          <label>
+            <input
+              type='radio'
+              value='restaurant_owner'
+              checked={role === 'restaurant_owner'}
+              onChange={() => setRole('restaurant_owner')}
+            />
+            Restaurant Owner
+          </label>
+        </div>
         <input
           type={'text'}
           placeholder={'Name'}
@@ -56,12 +76,6 @@ const Signup = () => {
           placeholder={'Phone Number'}
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        <input
-          type={'text'}
-          placeholder={'User role: Customer or Restaurant'}
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
         />
         <input
           type={'email'}
