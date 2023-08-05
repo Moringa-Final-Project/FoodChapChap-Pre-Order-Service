@@ -137,14 +137,16 @@ def protected():
 @app.route('/restaurant', methods=['POST'])
 @role_required(['admin'])
 def create_restaurant():
-    restaurant_name = request.form['restaurant_name']
-    restaurant_image = request.form['restaurant_image']
-    location = request.form['location']
-    ambience = request.form['ambience']
-    cuisines_offered = request.form['cuisines_offered']
-    operating_hours = request.form['operating_hours']
-    contact_info = request.form['contact_info']
-    restaurant_owner_user_id = int(request.form['restaurant_owner_user_id'])
+    data = request.json
+
+    restaurant_name = data.get('restaurant_name')
+    restaurant_image = data.get('restaurant_image')
+    location = data.get('location')
+    ambience = data.get('ambience')
+    cuisines_offered = data.get('cuisines_offered')
+    operating_hours = data.get('operating_hours')
+    contact_info = data.get('contact_info')
+    restaurant_owner_user_id = data.get('restaurant_owner_user_id')
 
     if not restaurant_name or not restaurant_image or not location or not ambience or not cuisines_offered or not operating_hours or not contact_info or not restaurant_owner_user_id:
         response = make_response(jsonify({"error": "Please provide all required fields"}), 400)
@@ -199,7 +201,7 @@ def get_restaurants():
 @role_required(['admin'])
 def ud_restaurant(restaurant_id):
     if request.method == 'PATCH':
-        data = request.form
+        data = request.json
         restaurant = Restaurant.query.get(restaurant_id)
 
         if not restaurant:
