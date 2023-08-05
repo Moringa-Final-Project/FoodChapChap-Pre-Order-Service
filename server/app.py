@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant
+from models import db, User, Restaurant, LoyaltyProgram
 
 
 app = Flask(__name__)
@@ -260,6 +260,98 @@ def get_all_restaurant_owners():
 
     response = make_response(jsonify(restaurant_owner_list), 200)
     return response
+
+
+# LOYALTYPROGRAM CRUD
+# CREATE
+@app.route('/restaurants/<int:restaurant_id>/loyalty_programs', methods=['POST'])
+@role_required(['restaurant_owner'])
+def loyalty_program(restaurant_id):
+        
+    data = request.json
+
+    restaurant = Restaurant.query.get(restaurant_id)
+    if not restaurant:
+        response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+        return response
+
+    loyalty_program = LoyaltyProgram(
+        restaurant_id=restaurant_id,
+        loyalty_points=data['loyalty_points'],
+        loyalty_tier=data['loyalty_tier']
+    )
+
+    db.session.add(loyalty_program)
+    db.session.commit()
+
+    response = make_response(jsonify(loyalty_program.to_dict()), 201)
+    return response
+    
+
+# READ
+@app.route('/restaurants/<int:restaurant_id>/loyalty_programs', methods=['GET'])
+@role_required(['restaurant_owner', 'customer'])
+def get_loyalty_program(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+    if not restaurant:
+        response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+        return response
+
+    loyalty_programs = LoyaltyProgram.query.filter_by(restaurant_id=restaurant_id).all()
+    if not loyalty_programs:
+        response = make_response(jsonify({'message': 'Loyalty program not found'}), 404)
+        return response
+
+    loyalty_programs_data = [loyalty_program.to_dict() for loyalty_program in loyalty_programs]
+
+    response = make_response(jsonify(loyalty_programs_data), 200)
+    return response
+
+# UPDATE and DELETE
+@app.route('/restaurants/<int:restaurant_id>/loyalty_programs/<int:loyalty_program_id>', methods=['PATCH', 'DELETE'])
+@role_required(['restaurant_owner'])
+def ud_loyalty_program(restaurant_id, loyalty_program_id):
+    if request.method == 'PATCH':
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        loyalty_program = LoyaltyProgram.query.filter_by(restaurant_id=restaurant_id, loyalty_program_id=loyalty_program_id).first()
+        if not loyalty_program:
+            response = make_response(jsonify({'error': 'Loyalty program not found'}), 404)
+            return response
+
+        data = request.json
+
+        if 'loyalty_points' in data:
+            loyalty_program.loyalty_points = data['loyalty_points']
+        if 'loyalty_tier' in data:
+            loyalty_program.loyalty_tier = data['loyalty_tier']
+
+        db.session.commit()
+
+        response = make_response(jsonify(loyalty_program.to_dict()), 200)
+        return response
+    
+    elif request.method == 'DELETE':
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        loyalty_program = LoyaltyProgram.query.filter_by(restaurant_id=restaurant_id, loyalty_program_id=loyalty_program_id).first()
+        if not loyalty_program:
+            response = make_response(jsonify({'error': 'Loyalty program not found'}), 404)
+            return response
+
+        # Delete the loyalty program from the database
+        db.session.delete(loyalty_program)
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Loyalty program deleted successfully'}), 200)
+        return response
+
 
 
 
