@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-  const navigate = useNavigate(); // Access the navigation function
+  const navigate = useNavigate();
 
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('customer');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -55,30 +55,45 @@ const Login = () => {
 
   return (
     <div className='login'>
-        <h1>Login</h1>
-        <form onSubmit={handleLogin}>
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
+        {/* Radio button for Customer */}
+        <div className='radio-button'>
+          <label>
+            <input
+              type='radio'
+              value='customer'
+              checked={role === 'customer'}
+              onChange={() => setRole('customer')}
+            />
+            Customer
+          </label>
+          <label>
+            <input
+              type='radio'
+              value='restaurant_owner'
+              checked={role === 'restaurant_owner'}
+              onChange={() => setRole('restaurant_owner')}
+            />
+            Restaurant Owner
+          </label>
+        </div>
         <input
-          type={'text'}
-          placeholder={'User role: Customer or Restaurant'}
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
-        <input
-          type={'email'}
-          placeholder={'Email'}
+          type='email'
+          placeholder='Email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type={'password'}
-          placeholder={'Password'}
+          type='password'
+          placeholder='Password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type={'submit'}>Login</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export default Login;

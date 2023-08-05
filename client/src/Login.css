@@ -53,7 +53,7 @@
 }
 
 .login form button{
-    width: 100%;
+    width: 30%;
     padding: 10px;
     border: 2px solid black;
     outline: none !important;
@@ -72,4 +72,8 @@
 .login form button:hover{
     background: black;
     color: white;
+}
+
+.radio-button{
+    display: flex;
 }
