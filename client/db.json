@@ -1,0 +1,64 @@
+{
+    "menu_items": [
+      {
+        "id": 1,
+        "image": "https://source.unsplash.com/random/?pizza&1",
+        "price": 9.99,
+        "item_name": "Pizza"
+      },
+      {
+        "id": 2,
+        "image": "https://source.unsplash.com/random/?Burger&1",
+        "price": 6.49,
+        "item_name": "Burger"
+      },
+      {
+        "id": 3,
+        "image": "https://source.unsplash.com/random/?Fries&1",
+        "price": 3.79,
+        "item_name": "Fries"
+      },
+      {
+        "id": 4,
+        "image": "https://source.unsplash.com/random/?Sushi&1",
+        "price": 12.99,
+        "item_name": "Sushi"
+      },
+      {
+        "id": 5,
+        "image": "https://source.unsplash.com/random/?Pasta&1",
+        "price": 8.99,
+        "item_name": "Pasta"
+      },
+      {
+        "id": 6,
+        "image": "https://source.unsplash.com/random/?Salad&1",
+        "price": 5.49,
+        "item_name": "Salad"
+      },
+      {
+        "id": 7,
+        "image": "https://source.unsplash.com/random/?Icecream&1",
+        "price": 7.99,
+        "item_name": "Ice Cream"
+      },
+      {
+        "id": 8,
+        "image": "https://source.unsplash.com/random/?Donut&1",
+        "price": 4.25,
+        "item_name": "Donut"
+      },
+      {
+        "id": 9,
+        "image": "https://source.unsplash.com/random/?Cupcake",
+        "price": 2.99,
+        "item_name": "Cupcake"
+      },
+      {
+        "id": 10,
+        "image": "https://source.unsplash.com/random/?Steak",
+        "price": 6.99,
+        "item_name": "Steak"
+      }
+    ]
+  }
