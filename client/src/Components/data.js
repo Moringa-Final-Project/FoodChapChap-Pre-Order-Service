@@ -2,7 +2,7 @@ export const restaurants = [
     {
         id:1,
         image_url: 'https://tb-static.uber.com/prod/image-proc/processed_images/2aa841d85d959a0667efddc7834e915b/3ac2b39ad528f8c8c5dc77c59abb683d.jpeg',
-        restaurant_name: 'Pizza Hut',
+        restaurant_name: 'Burger King',
         location: 'Westlands',
         rating: '5',
         cuisines_offered: 'Pizza, Fast Food, Dessert',

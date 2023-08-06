@@ -1,6 +1,6 @@
-import React from 'react'
-import { restaurants } from './data'
-import Filters from './Filters'
+import React from 'react';
+import { restaurants } from './data';
+import Filters from './Filters';
 import PlaceOrderCollections from './PlaceOrderCollections';
 import TopBrands from './TopBrands';
 import ExploreSection from './ExploreSection';
@@ -36,17 +36,28 @@ const placeOrderFilters=[
 
 const restaurantList = restaurants;
 
-const PlaceOrder = () => {
+const PlaceOrder = ({ searchTerm }) => {
+  const isFiltered = !!searchTerm; // Check if there is a search term
+
   return (
     <div>
       <div className='max-width'>
-      <Filters filterList={placeOrderFilters} />
+        {/* Conditionally render Filters, PlaceOrderCollections, and TopBrands */}
+        {!isFiltered && (
+          <>
+            <Filters filterList={placeOrderFilters} />
+            <PlaceOrderCollections />
+            <TopBrands />
+          </>
+        )}
       </div>
-      <PlaceOrderCollections />
-      <TopBrands />
-      <ExploreSection list={restaurantList} collectionName='Best Food in Nairobi' />
+      <ExploreSection
+        list={restaurantList}
+        collectionName='Best Food in Nairobi'
+        searchTerm={searchTerm}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default PlaceOrder
+export default PlaceOrder;
