@@ -4,7 +4,8 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant, LoyaltyProgram, MenuItem
+from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Order, OrderItem
+
 
 
 
@@ -482,7 +483,7 @@ def get_orders():
 # READ AN ORDER
 @app.route('/orders/<int:order_id>', methods=['GET'])
 @role_required(['admin', 'customer'])
-def get_order(order_id):
+def get_order_by_id(order_id):
     order = get_order_by_id(order_id)
     if not order:
         response = make_response(jsonify({'error': 'Order not found'}), 404)
@@ -494,7 +495,7 @@ def get_order(order_id):
 # UPDATE AN ORDER
 @app.route('/orders/<int:order_id>', methods=['PATCH'])
 @role_required(['admin', 'customer'])
-def update_order(order_id):
+def update_order_status(order_id):
     data = request.json
     new_order_status = data.get('order_status')
 
@@ -544,10 +545,9 @@ def create_order_item():
 # READ ORDER ITEMS BY ORDER ID
 @app.route('/order_items/<int:order_id>', methods=['GET'])
 @role_required(['admin', 'customer'])
-def get_order_items(order_id):
+def get_order_items_by_order_id(order_id):
     order_items = get_order_items_by_order_id(order_id)
     order_items_list = [item.to_dict() for item in order_items]
-
     response = make_response(jsonify(order_items_list), 200)
     return response
 

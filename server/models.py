@@ -137,7 +137,23 @@ class Order(db.Model, SerializerMixin):
     def __repr__(self):
         return f'Order(order_id={self.order_id}, order_status={self.order_status})'
     
-    
+ 
+   ## OrderItems
+class OrderItem(db.Model, SerializerMixin):
+    __tablename__ = 'order_items'
+
+    item_id = db.Column(db.Integer, primary_key=True)
+    order_item_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'), nullable=False)
+    menu_item_id = db.Column(db.Integer, db.ForeignKey('menu_items.menu_item_id'), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    subtotal = db.Column(db.Float, nullable=False)
+
+    order = db.relationship('Order', back_populates='items')
+    menu_item = db.relationship('MenuItem')
+
+    def __repr__(self):
+        return f'OrderItem(item_id={self.item_id}, quantity={self.quantity}, subtotal={self.subtotal})'
+   
     
     # Create an order
 def create_order(user_id, restaurant_id, order_status, order_total, order_date):
