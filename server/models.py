@@ -69,7 +69,7 @@ class Restaurant(db.Model, SerializerMixin):
     promotions = db.relationship('Promotion', backref = 'restaurant')
     menuitems = db.relationship('MenuItem', backref='restaurant')
     orders = db.relationship('Order', backref='restaurant')
-    # staff_mapping = db.relationship('StaffMapping', back_populates='restaurant')
+    staff_mapping = db.relationship('StaffMapping', backref='restaurant')
     # reviews = db.relationship('Review', back_populates='restaurant')
    # customers = db.relationship('Customer', back_populates='restaurant')
 
@@ -258,11 +258,16 @@ class StaffMapping(db.Model, SerializerMixin):
     __tablename__ = 'mappings'
 
     staff_id = db.Column(db.Integer, primary_key=True)
-    # restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id', name = 'fk_restaurant_id_mappings'))
     staff_name = db.Column(db.String(100), nullable=False)
     staff_role = db.Column(db.String(100), nullable=False)
 
-    # restaurant = db.relationship('Restaurant', back_populates='staff_mapping')
+    def to_dict(self):
+        return{
+            'staff_id': self.staff_id,
+            'staff_name': self.staff_name,
+            'staff_role': self.staff_role,
+        }
 
     def __repr__(self):
         return f'StaffMapping(staff_id={self.staff_id}, staff_name={self.staff_name})'

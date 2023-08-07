@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion
+from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion, StaffMapping
 
 
 
@@ -552,6 +552,98 @@ def get_promotions(restaurant_id):
 
     response = make_response(jsonify({'promotions': serialized_promotions}), 200)
     return response
+
+# STAFFMAPPING
+# CREATE, READ
+@app.route('/restaurants/<int:restaurant_id>/staff', methods=['GET','POST'])
+@role_required(['restaurant_owner'])
+def create_staff(restaurant_id):
+    if request.method == 'POST':
+        data = request.json
+
+        staff_name = data.get('staff_name')
+        staff_role = data.get('staff_role')
+
+        if not staff_name or not staff_role:
+            response = make_response(jsonify({'error': 'Please provide staff name and role'}), 400)
+            return response
+
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        new_staff = StaffMapping(
+            restaurant_id=restaurant_id,
+            staff_name=staff_name,
+            staff_role=staff_role
+        )
+
+        db.session.add(new_staff)
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Staff created and linked successfully'}), 201)
+        return response
+    
+    elif request.method == 'GET':
+        restaurant = Restaurant.query.get(restaurant_id)
+
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        staff_members = StaffMapping.query.filter_by(restaurant_id=restaurant_id).all()
+
+        serialized_staff = [staff.to_dict() for staff in staff_members]
+
+        response = make_response(jsonify({'staff_members': serialized_staff}), 200)
+        return response
+    
+# UPDATE, DELETE
+@app.route('/restaurants/<int:restaurant_id>/staff/<int:staff_id>', methods=['PATCH', 'DELETE'])
+@role_required(['restaurant_owner'])
+def ud_staff_member(restaurant_id, staff_id):
+    if request.method == 'PATCH':
+        data = request.json
+
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        staff_member = StaffMapping.query.filter_by(restaurant_id=restaurant_id, staff_id=staff_id).first()
+        if not staff_member:
+            response = make_response(jsonify({'error': 'Staff member not found'}), 404)
+            return response
+
+        if 'staff_name' in data:
+            staff_member.staff_name = data['staff_name']
+        if 'staff_role' in data:
+            staff_member.staff_role = data['staff_role']
+
+        db.session.commit()
+
+        response = make_response(jsonify(staff_member.to_dict()), 200)
+        return response
+    
+    elif request.method == 'DELETE':
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        staff_member = StaffMapping.query.filter_by(restaurant_id=restaurant_id, staff_id=staff_id).first()
+        if not staff_member:
+            response = make_response(jsonify({'error': 'Staff member not found'}), 404)
+            return response
+
+        db.session.delete(staff_member)
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Staff member deleted successfully'}), 200)
+        return response
+
+
       
       
 if __name__ == '__main__':
