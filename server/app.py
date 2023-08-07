@@ -187,16 +187,26 @@ def create_restaurant():
     return response
 
 # READ RESTAURANT
-
-@app.route('/restaurants', methods=['GET'])
-@role_required(['admin', 'customer'])
-def get_restaurants():
+@app.route('/restaurants/details', methods=['GET'])
+@role_required(['customer'])
+def get_restaurant_details_with_active_promotion():
     restaurants = Restaurant.query.all()
 
-    restaurants_list = [restaurant.to_dict() for restaurant in restaurants]
+    restaurant_list = []
+    for restaurant in restaurants:
+        restaurant_data = restaurant.to_dict()
+        
+        active_promotion = Promotion.query.filter_by(restaurant_id=restaurant.restaurant_id, active=True).first()
+        if active_promotion:
+            restaurant_data['offers'] = active_promotion.promotion_description
+        else:
+            restaurant_data.pop('offers', None)  
+        
+        restaurant_list.append(restaurant_data)
 
-    response = make_response(jsonify(restaurants_list), 200)
+    response = make_response(jsonify(restaurant_list), 200)
     return response
+
 
 
 # UPDATE  AND DELETE RESTAURANT
