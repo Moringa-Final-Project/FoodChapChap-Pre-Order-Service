@@ -16,6 +16,7 @@ class User(db.Model, SerializerMixin):
     phone_number = db.Column(db.String(10), nullable=False)
 
     restaurants = db.relationship('Restaurant', backref='user')
+    orders = db.relationship('Order', backref='user')
 
     def to_dict(self):
         return{
@@ -67,9 +68,9 @@ class Restaurant(db.Model, SerializerMixin):
     loyaltyprogram = db.relationship('LoyaltyProgram', backref = 'restaurant', uselist = False)
     promotions = db.relationship('Promotion', backref = 'restaurant')
     menu_items = db.relationship('MenuItem', back_populates='restaurant')
+    orders = db.relationship('Order', backref='restaurant')
     # staff_mapping = db.relationship('StaffMapping', back_populates='restaurant')
     # reviews = db.relationship('Review', back_populates='restaurant')
-    # orders = db.relationship('Order', back_populates='restaurant')
    # customers = db.relationship('Customer', back_populates='restaurant')
 
     def to_dict(self):
@@ -101,6 +102,7 @@ class MenuItem(db.Model, SerializerMixin):
     price = db.Column(db.Float, nullable=False)
     customization_options = db.Column(db.String(100), nullable=False)
     restaurant = db.relationship('Restaurant', back_populates='menu_items')
+    menu_item = db.relationship('MenuItem', backref='order_items')
 
     #restaurant = db.relationship('Restaurant', backref=db.backref('menu_item', lazy=True))
 
@@ -124,15 +126,24 @@ class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders'
 
     order_id = db.Column(db.Integer, primary_key=True)
-    # user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    # restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', name = 'fk_user_id_orders'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id', name = 'fk_restaurant_id_orders'))
     order_status = db.Column(db.String(100), nullable=False)
     order_total = db.Column(db.Float, nullable=False)
     order_date = db.Column(db.DateTime, nullable=False)
 
-    # items = db.relationship('OrderItem', back_populates='order')
+    orderitems = db.relationship('OrderItem', backref='order')
+
     # payments = db.relationship('PaymentTransaction', back_populates='order')
-    # restaurant = db.relationship('Restaurant', back_populates='orders')
+
+    def to_dict(self):
+        return{
+            'order_id': self.order_id,
+            'order_status': self.order_status,
+            'order_total': self.order_total,
+            'order_date': self.order_date,
+            
+        }
 
     def __repr__(self):
         return f'Order(order_id={self.order_id}, order_status={self.order_status})'
@@ -143,12 +154,18 @@ class OrderItem(db.Model, SerializerMixin):
     __tablename__ = 'orderitems'
 
     order_item_id = db.Column(db.Integer, primary_key=True)
-    # order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id'))
-    # item_id = db.Column(db.Integer, db.ForeignKey('menuitems.item_id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id', name='fk_order_id_orderitems'))
+    item_id = db.Column(db.Integer, db.ForeignKey('menuitems.item_id', name = 'fk_item_id_orderitems'))
     quantity = db.Column(db.Integer, nullable=False)
     subtotal = db.Column(db.Float, nullable=False)
 
-    # order = db.relationship('Order', back_populates='items')
+
+    def to_dict(self):
+        return{
+            'order_item_id': self.order_item_id,
+            'quantity': self.quantity,
+            'subtotal': self.subtotal,
+        }
 
     def __repr__(self):
         return f'OrderItem(order_item_id={self.order_item_id}, subtotal={self.subtotal})'
