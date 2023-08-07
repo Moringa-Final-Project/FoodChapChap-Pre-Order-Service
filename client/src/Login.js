@@ -5,7 +5,7 @@ import './Login.css';
 const Login = () => {
   const navigate = useNavigate();
 
-  const [role, setRole] = useState('customer');
+  const [role, setRole] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -76,6 +76,15 @@ const Login = () => {
               onChange={() => setRole('restaurant_owner')}
             />
             Restaurant Owner
+          </label>
+          <label>
+            <input
+              type='radio'
+              value='admin'
+              checked={role === 'admin'}
+              onChange={() => setRole('admin')}
+            />
+            Admin
           </label>
         </div>
         <input
