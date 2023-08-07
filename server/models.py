@@ -67,7 +67,7 @@ class Restaurant(db.Model, SerializerMixin):
 
     loyaltyprogram = db.relationship('LoyaltyProgram', backref = 'restaurant', uselist = False)
     promotions = db.relationship('Promotion', backref = 'restaurant')
-    menu_items = db.relationship('MenuItem', back_populates='restaurant')
+    menuitems = db.relationship('MenuItem', backref='restaurant')
     orders = db.relationship('Order', backref='restaurant')
     # staff_mapping = db.relationship('StaffMapping', back_populates='restaurant')
     # reviews = db.relationship('Review', back_populates='restaurant')
@@ -75,7 +75,7 @@ class Restaurant(db.Model, SerializerMixin):
 
     def to_dict(self):
         return {
-            'user_id': self.user_id,
+
             'restaurant_id': self.restaurant_id,
             'restaurant_name': self.restaurant_name,
             'restaurant_image': self.restaurant_image,
@@ -95,16 +95,16 @@ class MenuItem(db.Model, SerializerMixin):
     __tablename__ = 'menuitems'
 
     item_id = db.Column(db.Integer, primary_key=True)
-    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id', name='fk_restaurants_id_menu_item'))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey('restaurants.restaurant_id', name='fk_restaurants_id_menuitems'))
     item_name = db.Column(db.String(200), nullable=False)
-    item_category = db.Column(db.String(100), nullable=False)
+    item_image = db.Column(db.String(100), nullable=False)
     item_description = db.Column(db.String(500))
     price = db.Column(db.Float, nullable=False)
-    customization_options = db.Column(db.String(100), nullable=False)
-    restaurant = db.relationship('Restaurant', back_populates='menu_items')
-    menu_item = db.relationship('MenuItem', backref='order_items')
+    menuitems = db.relationship('OrderItem', backref='menuitems')
 
-    #restaurant = db.relationship('Restaurant', backref=db.backref('menu_item', lazy=True))
+
+
+
 
     def __repr__(self):
         return f'MenuItem(item_id={self.item_id}, item_name={self.item_name})'
@@ -114,10 +114,9 @@ class MenuItem(db.Model, SerializerMixin):
             'item_id': self.item_id,
             'restaurant_id': self.restaurant_id,
             'item_name': self.item_name,
-            'item_category': self.item_category,
+            'item_image': self.item_image,
             'item_description': self.item_description,
             'price': self.price,
-            'customization_options': self.customization_options,
 
         }
 
