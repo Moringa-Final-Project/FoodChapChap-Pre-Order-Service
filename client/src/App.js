@@ -3,7 +3,7 @@ import './App.css';
 import LoginSignUpContainer from './LoginSignUpContainer';
 import Home from './Components/Home';
 import Restaurant from './Components/Restaurant/Restaurant';
-import AdminRestaurants from './Components/Admin/AdminRestaurant';
+import Admin from './Components/Admin/Admin';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Route path="/login" element={<LoginSignUpContainer />} />
         <Route path="/customer-landing" element={<Home />} />
         <Route path="/restaurant-landing" element={<Restaurant />} />
-        <Route path="/admin-landing" element={<AdminRestaurants />} />
+        <Route path="/admin-landing" element={<Admin />} />
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
