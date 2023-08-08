@@ -55,11 +55,15 @@ function Restaurant() {
         </nav>
       </header>
       <Routes>
-        <Route
-          path="/order-list"
-          element={<OrderList orders={filteredOrders} />} 
-        />
-        <Route path="/statistics" element={<Statistics />} />
+      {menuVisible ? null : (
+          <Route 
+            path='/order-list'
+            element={<OrderList orders={filteredOrders} />}
+          />
+        )}
+        {menuVisible ? null : (
+          <Route path='/statistics' element={<Statistics />} />
+        )}
         <Route path="/" element={<Menu />} />
       </Routes>
     </div>

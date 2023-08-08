@@ -3,7 +3,7 @@ import './App.css';
 import LoginSignUpContainer from './LoginSignUpContainer';
 import Home from './Components/Home';
 import Restaurant from './Components/Restaurant/Restaurant';
-import Admin from './Components/Admin/Admin';
+import Admin from './Components/Admin/Admin'
 
 function App() {
   return (

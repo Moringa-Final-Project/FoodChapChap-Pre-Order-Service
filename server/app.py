@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion
+from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion, StaffMapping
 
 
 
@@ -123,8 +123,6 @@ def login():
     response = make_response(jsonify({'message': 'Login successful.', 'access_token': access_token, 'role': user.role}), 200)
     return response
 
-    # response = make_response(jsonify({'message': 'Login successful.'}), 200)
-    # return response
 
 # Protected Route
 @app.route('/protected')
@@ -276,94 +274,87 @@ def get_all_restaurant_owners():
     response = make_response(jsonify(restaurant_owner_list), 200)
     return response
 
-#CRETE NEW MENU ITEM
-@app.route('/menu/<int:restaurant_id>/', methods=['POST'])
+# MENUITEMS
+# CREATE
+@app.route('/menu', methods=['POST'])
 @role_required(['admin'])
-def create_menu_item(restaurant_id):
+def create_menu_item():
     data = request.get_json()
     if not data:
         return jsonify({'message': 'Invalid input data.'}), 400
         
+    restaurant_id = data.get('restaurant_id')
+    if restaurant_id is None:
+        return jsonify({'message': 'Restaurant ID is required.'}), 400
+        
+    restaurant = Restaurant.query.get(restaurant_id)
+    if restaurant is None:
+        return jsonify({'message': 'Restaurant not found.'}), 404
+        
     new_menu_item = MenuItem(
         restaurant_id=restaurant_id,
         item_name=data['item_name'],
-        item_category=data['item_category'],
+        item_image=data['item_image'],  # Ensure to provide the item image URL
         item_description=data['item_description'],
-        price=data['price'],
-        customization_options=data['customization_options']
+        price=data['price']
     )
+    
     db.session.add(new_menu_item)
     db.session.commit()
-    return jsonify(new_menu_item), 201
+    
+    return jsonify({'message': 'Menu item created successfully.'}), 201
 
-# READ MENU OF A SPECIFIC RESTAURANT
+
+# READ
 @app.route('/menu/<int:restaurant_id>/', methods=['GET'])
 @role_required(['admin', 'customer'])
-def get_menu_by_restaurant_id(restaurant_id):
-    """Get method for menu of a particular restaurant
-
-    Args:
-        restaurant_id (int): The restaurant unique id
-    """
-    menu_items = MenuItem.query.filter_by(restaurant_id=restaurant_id).all()
-    if not menu_items:
-        return jsonify({'message': 'No menu items found for this restaurant.'}), 404
+def get_menu_items(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+    if restaurant is None:
+        return jsonify({'message': 'Restaurant not found.'}), 404
         
-    menu_items_list = [menu_item.to_dict() for menu_item in menu_items]
-
-    return jsonify(menu_items_list), 200
-
-# READ FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
-@app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['GET'])
-@role_required(['admin', 'customer'])
-def get_menu_item_by_id(restaurant_id, menu_id):
-    """Get the menu items from a specific restaurant
-
-    Args:
-        restaurant_id (int): the unique restaurant id
-        menu_id (int): the unique menu id
-    """
-    menu_item = MenuItem.query.filter_by(restaurant_id=restaurant_id, item_id=menu_id).first()
-    if not menu_item:
-        return jsonify({'message': 'Menu item not found.'}), 404
-    return jsonify(menu_item), 200
-
-# UPDATE & DELETE FOR A SPECIFIC MENU ITEM IN A PARTICULAR RESTAURANT
-@app.route('/menu/<int:restaurant_id>/<int:menu_id>/', methods=['PUT', 'DELETE'])
-@role_required(['admin'])
-def ud_menu_item_by_id(restaurant_id, menu_id):
-    """PUT, DELETE  a menu item in a specific restaurant
-
-    Args:
-        restaurant_id (int): the unique restaurant id
-        menu_id (int): the unique menu id
-    """
-    menu_item = MenuItem.query.filter_by(restaurant_id=restaurant_id, item_id=menu_id).first()
+    menu_items = MenuItem.query.filter_by(restaurant_id=restaurant_id).all()
     
-    if request.method == 'PUT':
-        if not menu_item:
-            return jsonify({'message': 'Menu item not found.'}), 404
+    menu_items_data = [item.to_dict() for item in menu_items]
+    
+    return jsonify({'menu_items': menu_items_data}, 200)
 
+# UPDATE AND DELETE
+@app.route('/menu/<int:item_id>/', methods=['PATCH', 'DELETE'])
+@role_required(['admin'])
+def update_menu_item(item_id):
+    if request.method == 'PATCH': 
         data = request.get_json()
         if not data:
             return jsonify({'message': 'Invalid input data.'}), 400
-
-        menu_item.item_name = data['item_name']
-        menu_item.item_category = data['item_category']
-        menu_item.item_description = data['item_description']
-        menu_item.price = data['price']
-        menu_item.customization_options = data['customization_options']
-
-        db.session.commit()
-        return jsonify(menu_item), 200
-
-    elif request.method == 'DELETE':
-        if not menu_item:
+            
+        menu_item = MenuItem.query.get(item_id)
+        if menu_item is None:
             return jsonify({'message': 'Menu item not found.'}), 404
-
+        
+        if 'item_name' in data:
+            menu_item.item_name = data['item_name']
+        if 'item_image' in data:
+            menu_item.item_image = data['item_image']
+        if 'item_description' in data:
+            menu_item.item_description = data['item_description']
+        if 'price' in data:
+            menu_item.price = data['price']
+        
+        db.session.commit()
+        
+        return jsonify({'message': 'Menu item updated successfully.'})
+    
+    elif request.method == 'DELETE':
+        menu_item = MenuItem.query.get(item_id)
+        if menu_item is None:
+            return jsonify({'message': 'Menu item not found.'}), 404
+        
         db.session.delete(menu_item)
         db.session.commit()
-        return jsonify({'message': 'Menu item deleted successfully.'}), 200
+        
+        return jsonify({'message': 'Menu item deleted successfully.'})
+
 
       
 # LOYALTYPROGRAM CRUD
@@ -561,6 +552,98 @@ def get_promotions(restaurant_id):
 
     response = make_response(jsonify({'promotions': serialized_promotions}), 200)
     return response
+
+# STAFFMAPPING
+# CREATE, READ
+@app.route('/restaurants/<int:restaurant_id>/staff', methods=['GET','POST'])
+@role_required(['restaurant_owner'])
+def create_staff(restaurant_id):
+    if request.method == 'POST':
+        data = request.json
+
+        staff_name = data.get('staff_name')
+        staff_role = data.get('staff_role')
+
+        if not staff_name or not staff_role:
+            response = make_response(jsonify({'error': 'Please provide staff name and role'}), 400)
+            return response
+
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        new_staff = StaffMapping(
+            restaurant_id=restaurant_id,
+            staff_name=staff_name,
+            staff_role=staff_role
+        )
+
+        db.session.add(new_staff)
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Staff created and linked successfully'}), 201)
+        return response
+    
+    elif request.method == 'GET':
+        restaurant = Restaurant.query.get(restaurant_id)
+
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        staff_members = StaffMapping.query.filter_by(restaurant_id=restaurant_id).all()
+
+        serialized_staff = [staff.to_dict() for staff in staff_members]
+
+        response = make_response(jsonify({'staff_members': serialized_staff}), 200)
+        return response
+    
+# UPDATE, DELETE
+@app.route('/restaurants/<int:restaurant_id>/staff/<int:staff_id>', methods=['PATCH', 'DELETE'])
+@role_required(['restaurant_owner'])
+def ud_staff_member(restaurant_id, staff_id):
+    if request.method == 'PATCH':
+        data = request.json
+
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        staff_member = StaffMapping.query.filter_by(restaurant_id=restaurant_id, staff_id=staff_id).first()
+        if not staff_member:
+            response = make_response(jsonify({'error': 'Staff member not found'}), 404)
+            return response
+
+        if 'staff_name' in data:
+            staff_member.staff_name = data['staff_name']
+        if 'staff_role' in data:
+            staff_member.staff_role = data['staff_role']
+
+        db.session.commit()
+
+        response = make_response(jsonify(staff_member.to_dict()), 200)
+        return response
+    
+    elif request.method == 'DELETE':
+        restaurant = Restaurant.query.get(restaurant_id)
+        if not restaurant:
+            response = make_response(jsonify({'error': 'Restaurant not found'}), 404)
+            return response
+
+        staff_member = StaffMapping.query.filter_by(restaurant_id=restaurant_id, staff_id=staff_id).first()
+        if not staff_member:
+            response = make_response(jsonify({'error': 'Staff member not found'}), 404)
+            return response
+
+        db.session.delete(staff_member)
+        db.session.commit()
+
+        response = make_response(jsonify({'message': 'Staff member deleted successfully'}), 200)
+        return response
+
+
       
       
 if __name__ == '__main__':
