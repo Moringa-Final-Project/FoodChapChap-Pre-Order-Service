@@ -5,6 +5,12 @@ import ExploreCard from './ExploreCard';
 const ExploreSection = ({ list, collectionName, searchTerm }) => {
 
   const [filteredRestaurants, setFilteredRestaurants] = useState(list);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [dropdownVisible, setDropdownVisible] = useState(false); 
+
+  const handleDropdownToggle = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
 
   const applyRatingFilter = () => {
     const filteredList = list.filter(restaurant => parseFloat(restaurant.rating) >= 4.5);
@@ -31,6 +37,17 @@ const ExploreSection = ({ list, collectionName, searchTerm }) => {
 
   const filteredList = filterRestaurants(filteredRestaurants, searchTerm);
 
+  const handleLocationFilter = (location) => {
+    setSelectedLocation(location);
+    resetFilters(); // Reset other filters when selecting a new location
+    if (location) {
+      const filteredList = list.filter((restaurant) => restaurant.location === location);
+      setFilteredRestaurants(filteredList);
+    } else {
+      setFilteredRestaurants(list);
+    }
+  };
+
   return (
     <div className='max-width explore-section'>
       <div className='collection-title'>{collectionName}</div>
@@ -45,6 +62,21 @@ const ExploreSection = ({ list, collectionName, searchTerm }) => {
         <button className='filter-buttons' onClick={resetFilters}>Safe and Hygienic</button>
         <button className='filter-buttons' onClick={resetFilters}>Remove Filters</button>
       </div>
+      <div className='dropdown'>
+            <button className='filter-buttons' onClick={handleDropdownToggle}>
+              Locations
+            </button>
+            {dropdownVisible && (
+              <div className='dropdown-content cur-po'>
+                <div onClick={() => handleLocationFilter(null)}>All Locations</div>
+                {['Westlands', 'Moi Avenue', 'Lavington', 'Karen', 'Ngong Lane'].map((location) => (
+                  <div key={location} onClick={() => handleLocationFilter(location)}>
+                    {location}
+                  </div>
+            ))}
+          </div>
+            )}
+        </div>
       </div>
       {filteredList.length === 0 ? (
         <div className='no-matching-items collection-title'>

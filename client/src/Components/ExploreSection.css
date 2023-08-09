@@ -11,7 +11,6 @@
 .filter-section{
     padding: 16px 0px;
     display: flex;
-    flex-wrap: wrap;
 }
 
 .filter-icon{
@@ -39,4 +38,14 @@
 .filter-buttons:hover{
     color: var(--primary-bg);
     background-color: var(--foodchap-orange);
+}
+
+.dropdown-content div{
+    border-bottom: 1px solid var(--gray);
+}
+
+.dropdown-content div:hover {
+    background-color: var(--foodchap-orange); 
+    color: white;
+    border-radius: 8px;
 }

@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
 import logo from '../images/logo.png';
 import profile from '../images/user.png';
+import { useCart } from './CartContext';
+import CartModal from './CartModal';
 
-const Header = ({ onSearchInputChange, cartItemCount }) => {
+const Header = ({ onSearchInputChange }) => {
+  const { cartItemCount } = useCart();
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+
+  const handleCartIconClick = () => {
+    setIsCartModalOpen(true);
+  };
+
+  const handleCartModalClose = () => {
+    setIsCartModalOpen(false);
+  };
   
   const handleInputChange = (event) => {
     const searchTerm = event.target.value;
@@ -33,11 +45,15 @@ const Header = ({ onSearchInputChange, cartItemCount }) => {
           </div>
         </div>
         <div className='profile-wrapper'>
-          <i className='fi fi-rr-shopping-cart absolute-center cur-po cart-icon'></i>
+          <i
+            className='fi fi-rr-shopping-cart absolute-center cur-po cart-icon'
+            onClick={handleCartIconClick}
+          ></i>
           <span className='cart-item-count'>{cartItemCount}</span>
           <img src={profile} alt='Profile' className='header-profile-image cur-po' />
         </div>
       </div>
+      <CartModal isOpen={isCartModalOpen} onClose={handleCartModalClose} />
     </div>
   );
 };

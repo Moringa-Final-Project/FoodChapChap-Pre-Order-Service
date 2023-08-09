@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import './ExploreCard.css'
 import MenuModal from './MenuModal';
+import { useCart } from './CartContext'
 
 const ExploreCard = ({ restaurant }) => {
+    const { addToCart } = useCart();
 
     const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
@@ -13,6 +15,11 @@ const ExploreCard = ({ restaurant }) => {
     const cuisines = restaurant?.cuisines_offered;
     const bottomContainers = restaurant?.bottomContainers;
 
+    const handleAddToCart = (item) => {
+        addToCart(item); // Call the addToCart function with the selected item
+        console.log('Item added to cart:', item);
+      };
+
     const handleMenuModalOpen = () => {
         setIsMenuModalOpen(true);
       };
@@ -20,10 +27,6 @@ const ExploreCard = ({ restaurant }) => {
       const handleMenuModalClose = () => {
         setIsMenuModalOpen(false);
       };    
-
-      const handleAddToCart = (item) => {
-        console.log('Item added to cart:', item);
-      };
 
   return (
     <div className='explore-card cur-po'>

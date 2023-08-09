@@ -5,6 +5,7 @@ import Footer from './Footer'
 import PlaceOrder from './PlaceOrder'
 import DiningOut from './DiningOut'
 import Nightlife from './Nightlife'
+// import './Home.css'
 
 const Home = () => {
 
@@ -29,7 +30,7 @@ const Home = () => {
 }
 
   return (
-    <div>
+    <div className='home-wrapper'>
         <Header onSearchInputChange={handleSearchInputChange} />
         <TabOptions activeTab={activeTab} setActiveTab={setActiveTab} /> 
         {getCorrectScreen(activeTab)}

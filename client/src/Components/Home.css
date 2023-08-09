@@ -1,0 +1,19 @@
+.home-wrapper {
+    /* Add some padding to the top to prevent content from being hidden behind the fixed header */
+    padding-top: 70px;
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent; /* Adjust this based on your design */
+    z-index: 1000; /* Adjust the z-index to make sure the header is on top of other content */
+  }
+  
+  /* Add a CSS rule to ensure the header layout remains intact */
+  .header-right {
+    display: flex;
+    align-items: center;
+  }

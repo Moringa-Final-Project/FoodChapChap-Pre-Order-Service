@@ -1,21 +1,17 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [names, setNames] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // if (password !== confirmPassword) {
-    //     alert("Passwords do not match.");
-    //     return;
-    // }
 
     const requestBody = {
         names: names,
@@ -35,6 +31,7 @@ const Signup = () => {
     .then(response => response.json())
     .then(data => {
         console.log(data);
+        navigate('/');
     })
     .catch(error => {
         console.error(error);
