@@ -3,7 +3,8 @@ import './Header.css';
 import logo from '../images/logo.png';
 import profile from '../images/user.png';
 
-const Header = ({ onSearchInputChange }) => {
+const Header = ({ onSearchInputChange, cartItemCount }) => {
+  
   const handleInputChange = (event) => {
     const searchTerm = event.target.value;
     onSearchInputChange(searchTerm);
@@ -26,16 +27,17 @@ const Header = ({ onSearchInputChange }) => {
             <i className='fi fi-rr-search absolute-center search-icon'></i>
             <input
               type='text'
-              placeholder='Search for restaurant, cuisine, or a dish'
+              placeholder='Search for a Restaurant'
               className='search-input'
               onChange={handleInputChange}
             />
           </div>
         </div>
         <div className='profile-wrapper'>
-          <img src={profile} alt='Profile' className='header-profile-image' />
-          <span className='header-username'>User</span>
-          <i className='fi fi-rr-angle-small-down absolute-center profile-options-icon'></i>
+          <i className='fi fi-rr-shopping-cart absolute-center cur-po cart-icon'></i>
+          <span className='cart-item-count'>{cartItemCount}</span>
+          <img src={profile} alt='Profile' className='header-profile-image cur-po' />
+          {/* <span className='header-username'>User</span> */}
         </div>
       </div>
     </div>

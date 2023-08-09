@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import './MenuModal.css';
 
-const MenuModal = ({ restaurantName, isOpen, onClose }) => {
+const MenuModal = ({ restaurantName, isOpen, onClose, onAddToCart }) => {
 
   const menuItems = [
     {
@@ -100,7 +100,7 @@ const MenuModal = ({ restaurantName, isOpen, onClose }) => {
               </div>
               <div className='second-container'>
                 <div>
-                  <button className='cart-button'>+ Add to Cart</button>
+                  <button className='cart-button' onClick={() => onAddToCart(item)} >+ Add to Cart</button>
                 </div>
               </div>
               </div>

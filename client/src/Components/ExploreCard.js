@@ -21,6 +21,10 @@ const ExploreCard = ({ restaurant }) => {
         setIsMenuModalOpen(false);
       };    
 
+      const handleAddToCart = (item) => {
+        console.log('Item added to cart:', item);
+      };
+
   return (
     <div className='explore-card cur-po'>
         <div className='explore-card-cover'>
@@ -49,6 +53,7 @@ const ExploreCard = ({ restaurant }) => {
             menuItems={restaurant.menu_items}
             isOpen={isMenuModalOpen}
             onClose={handleMenuModalClose}
+            onAddToCart={handleAddToCart}
         />
     </div>
   )
