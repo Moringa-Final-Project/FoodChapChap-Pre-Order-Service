@@ -20,7 +20,6 @@ const Header = ({ onSearchInputChange, cartItemCount }) => {
               <i className='fi fi-rr-marker absolute-center location-icon'></i>
               <div>Nairobi</div>
             </div>
-            <i className='fi fi-rr-caret-down absolute-center'></i>
           </div>
           <div className='location-search-separator'></div>
           <div className='header-searchbar'>
@@ -37,7 +36,6 @@ const Header = ({ onSearchInputChange, cartItemCount }) => {
           <i className='fi fi-rr-shopping-cart absolute-center cur-po cart-icon'></i>
           <span className='cart-item-count'>{cartItemCount}</span>
           <img src={profile} alt='Profile' className='header-profile-image cur-po' />
-          {/* <span className='header-username'>User</span> */}
         </div>
       </div>
     </div>
