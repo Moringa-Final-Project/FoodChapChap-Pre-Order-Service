@@ -13,7 +13,6 @@ function Menu(){
     {id: 108, item: 'Donut', price: 300, imageUrl: "https://shorturl.at/nPUYZ"},
     {id: 108, item: 'CupCake', price: 300, imageUrl: "https://shorturl.at/DHJO5"},
     {id: 108, item: 'Steak', price: 850, imageUrl: "https://shorturl.at/bpsvD"}
-    // Add more menu items here
   ]);
 
 
@@ -25,7 +24,6 @@ function Menu(){
   });
 
   const handleDelete = (itemId) => {
-    //Remove the item from the menuItems array by its id
     setMenuItems((prevMenuItems) => prevMenuItems.filter((item) => item.id !== itemId));
   };
 
@@ -42,7 +40,6 @@ function Menu(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //Update the selected item with the new name and price
     setMenuItems((prevMenuItems) => 
       prevMenuItems.map((item) => 
       item.id === selectedItem.id ? { ...item, item: updatedItem.item, price: updatedItem.price } : item

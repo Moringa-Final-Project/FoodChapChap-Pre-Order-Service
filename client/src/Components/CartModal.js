@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import { useCart } from './CartContext'; // Update the path
+import { useCart } from './CartContext';
 import './CartModal.css';
 
 const CartModal = ({ isOpen, onClose }) => {

@@ -16,7 +16,7 @@ const ExploreCard = ({ restaurant }) => {
     const bottomContainers = restaurant?.bottomContainers;
 
     const handleAddToCart = (item) => {
-        addToCart(item); // Call the addToCart function with the selected item
+        addToCart(item); 
         console.log('Item added to cart:', item);
       };
 

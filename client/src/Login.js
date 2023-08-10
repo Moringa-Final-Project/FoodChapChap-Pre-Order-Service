@@ -29,10 +29,8 @@ const Login = () => {
       })
       .then((data) => {
         console.log(data);
-        // Assuming the server returns the user role in the response
         const userRole = data.role;
 
-        // Redirect to the appropriate landing page based on the user role
         switch (userRole) {
           case 'customer':
             navigate('/customer-landing');
@@ -44,7 +42,6 @@ const Login = () => {
             navigate('/restaurant-landing');
             break;
           default:
-            // Handle unexpected roles or error cases
             break;
         }
       })
@@ -57,7 +54,6 @@ const Login = () => {
     <div className='login'>
       <h1>Login</h1>
       <form onSubmit={handleLogin}>
-        {/* Radio button for Customer */}
         <div className='radio-button'>
           <label>
             <input
@@ -77,7 +73,7 @@ const Login = () => {
             />
             Restaurant Owner
           </label>
-          <label>
+          {/* <label>
             <input
               type='radio'
               value='admin'
@@ -85,7 +81,7 @@ const Login = () => {
               onChange={() => setRole('admin')}
             />
             Admin
-          </label>
+          </label> */}
         </div>
         <input
           type='email'
