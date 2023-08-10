@@ -1,23 +1,27 @@
-import React from 'react';
-import './Restaurants.css'
-import { Link, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
 import Menu from './Restaurants/Menu';
 import OrderList from './Restaurants/Order';
-import Statistics from './Restaurants/Statistics';
+import './Restaurants.css';
 
 function Restaurant() {
-  const [menuVisible, setMenuVisible] = React.useState(false);
-  
+  const [menuVisible, setMenuVisible] = useState(false);
+
   // Sample order data (Replace this with your actual order data)
-  const [orders] = React.useState([
+  const [orders] = useState([
     // ... (your order data here)
+    { id: 1, item: 'Pizza', quantity: 2, price: 9.99, imageUrl: "https://shorturl.at/qBLNY"},
+    { id: 2, item: 'Burger', quantity: 1, price: 6.49, imageUrl: "https://shorturl.at/cenxN" },
+    { id: 3, item: 'Fries', price: 3.79, imageUrl: " https://shorturl.at/enwMY"},
+    { id: 4, item: 'Sushi', quantity: 5, price: 12.99, imageUrl: "https://shorturl.at/mnNQ3"},
+    { id: 5, item: 'Pasta', price: 8.99, imageUrl: "https://shorturl.at/sAS28"},
+    { id: 6, item: 'Salad', price: 5.49, imageUrl: "https://shorturl.at/blAS6"},
+    { id: 7, item: 'Ice Cream',quantity: 1, price: 7.99, imageUrl: "https://shorturl.at/IKLW1"},
+    { id: 8, item: 'Donut',quantity: 1, price: 4.25, imageUrl: "https://shorturl.at/nPUYZ"},
+    { id: 8, item: 'CupCake',quantity: 1, price: 2.99, imageUrl: "https://shorturl.at/DHJO5"},
+    { id: 8, item: 'Steak', price: 6.99, imageUrl: "https://shorturl.at/bpsvD"}
   ]);
 
-  const toggleMenu = () => {
-    setMenuVisible(!menuVisible);
-  };
-
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -34,13 +38,8 @@ function Restaurant() {
         <nav>
           <ul className="navbar">
             <li>
-              <Link to="/order-list">OrderList</Link>
-            </li>
-            <li>
-              <Link to="/statistics">Statistics</Link>
-            </li>
-            <li>
-              <Link to="/menu">Menu</Link>
+              <button onClick={() => setMenuVisible(false)}>Menu</button>
+              <button onClick={() => setMenuVisible(true)}>OrderList</button>
             </li>
             <li>
               <input
@@ -54,18 +53,11 @@ function Restaurant() {
           </ul>
         </nav>
       </header>
-      <Routes>
-      {menuVisible ? null : (
-          <Route 
-            path='/order-list'
-            element={<OrderList orders={filteredOrders} />}
-          />
-        )}
-        {menuVisible ? null : (
-          <Route path='/statistics' element={<Statistics />} />
-        )}
-        <Route path="/" element={<Menu />} />
-      </Routes>
+      {menuVisible ? (
+        <OrderList orders={filteredOrders} />
+      ) : (
+        <Menu />
+      )}
     </div>
   );
 }

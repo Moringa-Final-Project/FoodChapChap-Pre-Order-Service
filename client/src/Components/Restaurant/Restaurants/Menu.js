@@ -1,3 +1,128 @@
+// import React, { useState, useEffect } from 'react';
+// import './Menu.css'
+
+// function Menu() {
+//   const [showUpdateForm, setShowUpdateForm] = useState(false);
+//   const [selectedItem, setSelectedItem] = useState(null);
+//   const [updatedItem, setUpdatedItem] = useState({
+//     item: '',
+//     price: '',
+//   });
+//   const [menuItems, setMenuItems] = useState([]); // Define the state for menu items
+
+//   useEffect(() => {
+//     fetchMenuItems('http://127.0.0.1:5555/menuitems');
+//   }, []);
+
+//   const fetchMenuItems = async () => {
+//     try {
+//       const response = await fetch('http://127.0.0.1:5555/menuitems/restaurant_id');
+//       if (response.ok) {
+//         const data = await response.json();
+//         setMenuItems(data.menu_items);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching menu items:', error);
+//     }
+//   };
+
+//   const handleDeleteRestaurant = async (itemId) => {
+//     try {
+//       // Implement your handleDeleteRestaurant logic here
+//       await handleDeleteRestaurant(itemId);
+//       fetchMenuItems('http://127.0.0.1:5555/menuitems');
+//     } catch (error) {
+//       console.error('Error deleting menu item:', error);
+//     }
+//   };
+
+//   const handleUpdate = (item) => {
+//     setSelectedItem(item)
+//     setUpdatedItem({ item: item.item, price: item.price });
+//     setShowUpdateForm(true);
+//   };
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setUpdatedItem((prevItem) => ({ ...prevItem, [name]: value }));
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const response = await fetch(`http://127.0.0.1:5555/menuitems/${selectedItem.id}`, {
+//         method: 'PATCH',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           item_name: updatedItem.item_name,
+//           price: updatedItem.price,
+//         }),
+//       });
+//       if (response.ok) {
+//         fetchMenuItems();
+//         setShowUpdateForm(false);
+//       }
+//     } catch (error) {
+//       console.error('Error updating menu item:', error);
+//     }
+//   }
+
+//   return (
+//     <div className="menu">
+//       <h2>Menu</h2>
+//       <div className="menu-cards">
+//         {menuItems.map((item) => (
+//           <div key={item.id} className="menu-card">
+//             <h3>{item.item}</h3>
+//             <p>Price: ${item.price}</p>
+//             <p>Promo: %{item.promos}</p>
+//             <div className="menu-card-buttons">
+//               <button className="delete-button" onClick={() => handleDeleteRestaurant(item.id)}>
+//                 Delete
+//               </button>
+//               <button className="update-button" onClick={() => handleUpdate(item)}>
+//                 Update
+//               </button>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {showUpdateForm && selectedItem && (
+//         <div className="update-form">
+//           <h3>Update Item</h3>
+//           <form onSubmit={handleSubmit}>
+//             <label>
+//               Name:
+//               <input
+//                 type="text"
+//                 name="item"
+//                 value={updatedItem.item}
+//                 onChange={handleChange}
+//               />
+//             </label>
+//             <label>
+//               Price:
+//               <input
+//                 type="number"
+//                 name="price"
+//                 value={updatedItem.price}
+//                 onChange={handleChange}
+//               />
+//             </label>
+//             <button type="submit">Update</button>
+//           </form>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default Menu;
+
 import React, { useState } from 'react';
 import './Menu.css'
 
@@ -13,6 +138,7 @@ function Menu(){
     {id: 108, item: 'Steak and Shrimp', price: 12.88, promos: 15}
     // Add more menu items here
   ]);
+
 
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);

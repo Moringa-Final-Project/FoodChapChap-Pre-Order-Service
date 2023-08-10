@@ -8,6 +8,7 @@
     border: 1px solid #ccc;
     padding: 20px;
     text-align: center;
+    border-radius: 20px;
   }
   
   .order-item-image {
@@ -33,6 +34,7 @@
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
   }
   
   .order-status-message {
