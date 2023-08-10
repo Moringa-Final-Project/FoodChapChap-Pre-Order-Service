@@ -64,6 +64,12 @@
     justify-content: space-between;
     margin-top: 10px;
   }
+
+  .menu-item-image {
+    max-width: 100px; /* Adjust the size as needed */
+    max-height: 100px; /* Adjust the size as needed */
+    margin-bottom: 10px;
+  }
   
   .accept-button,
   .delete-button,

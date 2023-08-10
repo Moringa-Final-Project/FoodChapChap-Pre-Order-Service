@@ -16,13 +16,13 @@ const Admin = () => {
 
     useEffect(() => {
         // Fetch restaurants from the backend
-        fetch('http://127.0.0.1:5000/restaurants')
+        fetch('http://127.0.0.1:5555/restaurants')
             .then((response) => response.json())
             .then((data) => setRestaurants(data))
             .catch((error) => console.error('Error fetching restaurants:', error));
 
         // Fetch customers from the backend API
-        fetch('http://127.0.0.1:5000/customers')
+        fetch('http://127.0.0.1:5555/customers')
             .then((response) => response.json())
             .then((data) => setCustomers(data))
             .catch((error) => console.error('Error fetching customers:', error));
@@ -36,7 +36,7 @@ const Admin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Submit form data to create a new restaurant
-        fetch('http://127.0.0.1:5000/restaurants', {
+        fetch('http://127.0.0.1:5555/restaurants', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const Admin = () => {
 
     const handleDeleteRestaurant = (restaurantId) => {
         // Delete the restaurant from the backend
-        fetch(`http://127.0.0.1:5000/restaurants/${restaurantId}`, {
+        fetch(`http://127.0.0.1:5555restaurants/${restaurantId}`, {
             method: 'DELETE',
         })
             .then((response) => {
@@ -77,7 +77,7 @@ const Admin = () => {
 
     const handleDeleteCustomer = (customerId) => {
         // Delete the customer from the backend API
-        fetch(`http://127.0.0.1:5000/customers/${customerId}`, {
+        fetch(`http://127.0.0.1:5555/customers/${customerId}`, {
             method: 'DELETE',
         })
             .then((response) => {

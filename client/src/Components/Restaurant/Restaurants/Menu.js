@@ -1,141 +1,18 @@
-// import React, { useState, useEffect } from 'react';
-// import './Menu.css'
-
-// function Menu() {
-//   const [showUpdateForm, setShowUpdateForm] = useState(false);
-//   const [selectedItem, setSelectedItem] = useState(null);
-//   const [updatedItem, setUpdatedItem] = useState({
-//     item: '',
-//     price: '',
-//   });
-//   const [menuItems, setMenuItems] = useState([]); // Define the state for menu items
-
-//   useEffect(() => {
-//     fetchMenuItems('http://127.0.0.1:5555/menuitems');
-//   }, []);
-
-//   const fetchMenuItems = async () => {
-//     try {
-//       const response = await fetch('http://127.0.0.1:5555/menuitems/restaurant_id');
-//       if (response.ok) {
-//         const data = await response.json();
-//         setMenuItems(data.menu_items);
-//       }
-//     } catch (error) {
-//       console.error('Error fetching menu items:', error);
-//     }
-//   };
-
-//   const handleDeleteRestaurant = async (itemId) => {
-//     try {
-//       // Implement your handleDeleteRestaurant logic here
-//       await handleDeleteRestaurant(itemId);
-//       fetchMenuItems('http://127.0.0.1:5555/menuitems');
-//     } catch (error) {
-//       console.error('Error deleting menu item:', error);
-//     }
-//   };
-
-//   const handleUpdate = (item) => {
-//     setSelectedItem(item)
-//     setUpdatedItem({ item: item.item, price: item.price });
-//     setShowUpdateForm(true);
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setUpdatedItem((prevItem) => ({ ...prevItem, [name]: value }));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       const response = await fetch(`http://127.0.0.1:5555/menuitems/${selectedItem.id}`, {
-//         method: 'PATCH',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           item_name: updatedItem.item_name,
-//           price: updatedItem.price,
-//         }),
-//       });
-//       if (response.ok) {
-//         fetchMenuItems();
-//         setShowUpdateForm(false);
-//       }
-//     } catch (error) {
-//       console.error('Error updating menu item:', error);
-//     }
-//   }
-
-//   return (
-//     <div className="menu">
-//       <h2>Menu</h2>
-//       <div className="menu-cards">
-//         {menuItems.map((item) => (
-//           <div key={item.id} className="menu-card">
-//             <h3>{item.item}</h3>
-//             <p>Price: ${item.price}</p>
-//             <p>Promo: %{item.promos}</p>
-//             <div className="menu-card-buttons">
-//               <button className="delete-button" onClick={() => handleDeleteRestaurant(item.id)}>
-//                 Delete
-//               </button>
-//               <button className="update-button" onClick={() => handleUpdate(item)}>
-//                 Update
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-
-//       {showUpdateForm && selectedItem && (
-//         <div className="update-form">
-//           <h3>Update Item</h3>
-//           <form onSubmit={handleSubmit}>
-//             <label>
-//               Name:
-//               <input
-//                 type="text"
-//                 name="item"
-//                 value={updatedItem.item}
-//                 onChange={handleChange}
-//               />
-//             </label>
-//             <label>
-//               Price:
-//               <input
-//                 type="number"
-//                 name="price"
-//                 value={updatedItem.price}
-//                 onChange={handleChange}
-//               />
-//             </label>
-//             <button type="submit">Update</button>
-//           </form>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default Menu;
-
 import React, { useState } from 'react';
 import './Menu.css'
 
 function Menu(){
   const [menuItems, setMenuItems] = useState([
-    { id: 101, item: 'Margherita Pizza', price: 10.99, promos: 10 },
-    { id: 102, item: 'Classic Burger', price: 8.99, promos: 11 },
-    { id: 103, item: 'Creamy Alfredo Pasta', price: 12.49, promos: 15 },
-    { id: 104, item: 'French Fries', price: 11.11, promos: 19},
-    { id: 105, item: 'Chocolate Cake', price: 7.6, promos: 5},
-    {id: 106, item: 'Sushi Roll', price: 14.88, promos: 20},
-    {id: 107, item: 'Grilled Salmon', price: 18.88, promos: 12},
-    {id: 108, item: 'Steak and Shrimp', price: 12.88, promos: 15}
+    { id: 101, item: 'Pizza', price: 1490, imageUrl: "https://shorturl.at/qBLNY" },
+    { id: 102, item: 'Burger', price: 900, imageUrl: "https://shorturl.at/cenxN" },
+    { id: 103, item: 'Fries', price: 200, imageUrl: " https://shorturl.at/enwMY" },
+    { id: 104, item: 'Sushi', price: 1800, imageUrl: "https://shorturl.at/mnNQ3"},
+    { id: 105, item: 'Pasta', price: 1500, imageUrl: "https://shorturl.at/sAS28"},
+    {id: 106, item: 'Salad', price: 150, imageUrl: "https://shorturl.at/blAS6"},
+    {id: 107, item: 'Ice Cream', price: 350, imageUrl: "https://shorturl.at/IKLW1"},
+    {id: 108, item: 'Donut', price: 300, imageUrl: "https://shorturl.at/nPUYZ"},
+    {id: 108, item: 'CupCake', price: 300, imageUrl: "https://shorturl.at/DHJO5"},
+    {id: 108, item: 'Steak', price: 850, imageUrl: "https://shorturl.at/bpsvD"}
     // Add more menu items here
   ]);
 
@@ -180,9 +57,9 @@ function Menu(){
       <div className="menu-cards">
         {menuItems.map((item) => (
           <div key={item.id} className="menu-card">
+            <img src={item.imageUrl} alt={item.item} className="menu-item-image" />
             <h3>{item.item}</h3>
-            <p>Price: ${item.price}</p>
-            <p>Promo: %{item.promos}</p>
+            <p>Price: Ksh{item.price}</p>
             <div className="menu-card-buttons">
               <button className="delete-button" onClick={() => handleDelete(item.id)}>
                 Delete
@@ -226,3 +103,5 @@ function Menu(){
 };
 
 export default Menu;
+
+

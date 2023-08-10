@@ -25,7 +25,6 @@ const OrderHistory = ({ orders }) => {
             <img src={order.imageUrl} alt={order.item} className="order-item-image" />
             <h3>{order.item}</h3>
             <p>Quantity: {order.quantity}</p>
-            <p>Price: ${order.price}</p>
             <div className="order-card-buttons">
               {!orderStatus[order.id] && (
                 <>
@@ -47,7 +46,7 @@ const OrderHistory = ({ orders }) => {
                 <p className="order-status-message">Your order is ready</p>
               )}
               {orderStatus[order.id] === 'rejected' && (
-                <p className="order-status-message">Your order was rejected</p>
+                <p className="order-status-message-fail">Your order was rejected</p>
               )}
             </div>
           </div>
@@ -58,3 +57,4 @@ const OrderHistory = ({ orders }) => {
 };
 
 export default OrderHistory;
+
