@@ -17,8 +17,8 @@ function Restaurant() {
     { id: 6, item: 'Salad', price: 5.49, imageUrl: "https://shorturl.at/blAS6"},
     { id: 7, item: 'Ice Cream',quantity: 1, price: 7.99, imageUrl: "https://shorturl.at/IKLW1"},
     { id: 8, item: 'Donut',quantity: 1, price: 4.25, imageUrl: "https://shorturl.at/nPUYZ"},
-    { id: 8, item: 'CupCake',quantity: 1, price: 2.99, imageUrl: "https://shorturl.at/DHJO5"},
-    { id: 8, item: 'Steak', price: 6.99, imageUrl: "https://shorturl.at/bpsvD"}
+    { id: 9, item: 'CupCake',quantity: 1, price: 2.99, imageUrl: "https://shorturl.at/DHJO5"},
+    { id: 10, item: 'Steak', price: 6.99, imageUrl: "https://shorturl.at/bpsvD"}
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

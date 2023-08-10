@@ -6,7 +6,7 @@
         "price": 9.99,
         "item_name": "Pizza"
       },
-      {
+      { 
         "id": 2,
         "image": "https://source.unsplash.com/random/?Burger&1",
         "price": 6.49,
