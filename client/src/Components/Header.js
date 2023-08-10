@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import logo from '../images/logo.png';
 import profile from '../images/user.png';
@@ -8,6 +9,7 @@ import CartModal from './CartModal';
 const Header = ({ onSearchInputChange }) => {
   const { cartItemCount } = useCart();
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleCartIconClick = () => {
     setIsCartModalOpen(true);
@@ -51,6 +53,9 @@ const Header = ({ onSearchInputChange }) => {
           ></i>
           <span className='cart-item-count'>{cartItemCount}</span>
           <img src={profile} alt='Profile' className='header-profile-image cur-po' />
+        </div>
+        <div className='logout-button-container'>
+          <button className='logout-button' onClick={() => navigate('/login')}>Logout</button>
         </div>
       </div>
       <CartModal isOpen={isCartModalOpen} onClose={handleCartModalClose} />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Menu from './Restaurants/Menu';
 import OrderList from './Restaurants/Order';
 import './Restaurants.css';
@@ -17,6 +18,7 @@ function Restaurant() {
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -46,6 +48,9 @@ function Restaurant() {
               />
             </li>
           </ul>
+          <div className='logout-button-container'>
+            <button className='logout-button' onClick={() => navigate('/login')}>Logout</button>
+          </div>
         </nav>
       </header>
       {menuVisible ? (
