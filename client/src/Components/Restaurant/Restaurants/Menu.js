@@ -11,8 +11,8 @@ function Menu(){
     {id: 106, item: 'Salad', price: 150, imageUrl: "https://shorturl.at/blAS6"},
     {id: 107, item: 'Ice Cream', price: 350, imageUrl: "https://shorturl.at/IKLW1"},
     {id: 108, item: 'Donut', price: 300, imageUrl: "https://shorturl.at/nPUYZ"},
-    {id: 108, item: 'CupCake', price: 300, imageUrl: "https://shorturl.at/DHJO5"},
-    {id: 108, item: 'Steak', price: 850, imageUrl: "https://shorturl.at/bpsvD"}
+    {id: 109, item: 'CupCake', price: 300, imageUrl: "https://shorturl.at/DHJO5"},
+    {id: 110, item: 'Steak', price: 850, imageUrl: "https://shorturl.at/bpsvD"}
   ]);
 
 
