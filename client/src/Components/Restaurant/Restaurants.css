@@ -1,18 +1,8 @@
-.App {
+  .App {
     text-align: center;
     padding: 20px;
   }
   
-  .head {
-    background-color: orange;
-    color: white;
-    padding: 10px;
-  }
-  
-  .header h1 {
-    margin: 0;
-  }
-    
   .head {
     background-color: orange;
     padding: 16px;
@@ -32,13 +22,54 @@
     margin: 0 8px;
   }
   
-  .navbar a {
-    text-decoration: none;
+  .navbar button {
+    background-color: transparent;
+    border: none;
     color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .navbar button:hover {
+    color: lightgray;
   }
   
   .search-bar {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    margin-top: 8px;
   }
+
+  .order-list {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+  }
+  
+  .order-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+  }
+  
+  
+  .menu-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .menu-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 8px;
+    border-radius: 4px;
+    max-width: 200px;
+    text-align: center;
+  }
+  
+  
+  

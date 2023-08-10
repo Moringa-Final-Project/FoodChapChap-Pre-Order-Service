@@ -41,6 +41,7 @@
     border: 1px solid #ccc;
     padding: 20px;
     text-align: center;
+    border-radius: 20px;
   }
   
   /* .menu-cards::after {
@@ -74,6 +75,7 @@
     font-size: 14px;
     text-transform: uppercase;
     transition: background-color 0.3s ease;
+    border-radius: 5px;
   }
   
   
@@ -96,11 +98,14 @@
   .update-form h3 {
     font-size: 18px;
     margin-bottom: 10px;
+    text-align: center;
   }
   
   .update-form form {
     display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items: center;
   }
   
   .update-form label {
@@ -122,4 +127,7 @@
     font-size: 14px;
     text-transform: uppercase;
     transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100px;
+    border-radius: 5px;
   }
