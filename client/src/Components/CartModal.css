@@ -17,3 +17,126 @@
 .cart-modal-overlay {
     background-color: rgba(0, 0, 0, 0.5);
 }
+
+.cart-modal-content {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+  }
+
+  .cart-item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+    padding: 10px 0;
+  }
+  
+  .cart-item-container:last-child {
+    border-bottom: none;
+  }
+  
+  .item-name {
+    font-weight: bold;
+  }
+  
+  .quantity-container {
+    display: flex;
+  }
+  
+  .quantity-button {
+    width: 30px;
+    height: 30px;
+    background-color: orange;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+  }
+  
+  .quantity-button:hover {
+    background-color: darkorange;
+  }
+  
+  .remove-button {
+    height: 30px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+  }
+
+  .cart-service-fee, .cart-subtotal{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    border-top: 1px solid lightgray;
+    padding-top: 10px;
+  }
+  
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    border-top: 1px solid lightgray;
+    padding-top: 10px;
+  }
+  
+  .total-text {
+    font-weight: bold;
+  }
+  
+  .total-amount {
+    color: orange;
+  }
+  
+  .proceed-button {
+    background-color: orange;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+  
+  .proceed-button:hover {
+    background-color: darkorange;
+  }
+
+  .checkout-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .receipt-content{
+    padding: 5px;
+  }
+
+  .receipt-content span{
+    margin-right: 10px;
+  }
+
+  .receipt-item-name{
+    font-weight: bold;
+  }
+
+  .receipt-item-quantity{
+    color: orange;
+  }
+
+  .receipt-total{
+    font-weight: bold;
+  }
+
+  .receipt-total-price{
+    color: orange;
+  }
