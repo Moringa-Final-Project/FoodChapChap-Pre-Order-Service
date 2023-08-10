@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion
+from models import db, User, Restaurant, LoyaltyProgram, MenuItem, Promotion, CartItem, Order, OrderItem
 
 
 
@@ -561,6 +561,142 @@ def get_promotions(restaurant_id):
 
     response = make_response(jsonify({'promotions': serialized_promotions}), 200)
     return response
+
+# CARTITEM
+
+# ADD TO CART
+@app.route('/add_to_cart/<int:item_id>', methods=['POST'])
+@role_required(['customer'])
+def add_to_cart(item_id):
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    item = MenuItem.query.get(item_id)
+    if not item:
+        return jsonify({'error': 'Item not found'}), 404
+
+    # Create or update cart item
+    cart_item = CartItem.query.filter_by(user_id=user.user_id, item_id=item_id).first()
+    if not cart_item:
+        cart_item = CartItem(user_id=user.user_id, item_id=item_id, quantity=1)
+        db.session.add(cart_item)
+    else:
+        cart_item.quantity += 1
+    
+    db.session.commit()
+    return jsonify({'message': 'Item added to cart'}), 200
+
+# VIEW CART
+@app.route('/view_cart', methods=['GET'])
+@role_required(['customer'])
+def view_cart():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    cart_items = CartItem.query.filter_by(user_id=user.user_id).all()
+    cart_data = [cart_item.to_dict() for cart_item in cart_items]
+
+    return jsonify(cart_data), 200
+
+# UPDATE CART
+@app.route('/update_cart/<int:item_id>', methods=['PUT'])
+@role_required(['customer'])
+def update_cart(item_id):
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    cart_item = CartItem.query.filter_by(user_id=user.user_id, item_id=item_id).first()
+    if not cart_item:
+        return jsonify({'error': 'Item not found in cart'}), 404
+
+    data = request.json
+    new_quantity = data.get('quantity')
+
+    if new_quantity <= 0:
+        db.session.delete(cart_item)
+    else:
+        cart_item.quantity = new_quantity
+    
+    db.session.commit()
+    return jsonify({'message': 'Cart item updated'}), 200
+
+# CLEAR CART
+@app.route('/clear_cart', methods=['DELETE'])
+@role_required(['customer'])
+def clear_cart():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    cart_items = CartItem.query.filter_by(user_id=user.user_id).all()
+    for cart_item in cart_items:
+        db.session.delete(cart_item)
+
+    db.session.commit()
+    return jsonify({'message': 'Cart cleared'}), 200
+
+
+# CHECKOUT
+@app.route('/checkout', methods=['POST'])
+@role_required(['customer'])
+def checkout():
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    new_order = Order(
+        user=user,
+        restaurant_id=request.json['restaurant_id'],  # Assuming you get the restaurant ID from the request
+        order_status='pending',
+        order_total=0,
+        order_date=datetime.utcnow()
+    )
+
+    db.session.add(new_order)
+    db.session.commit()
+
+    cart_items = CartItem.query.filter_by(user=user).all()
+    total_order_amount = 0
+
+    for cart_item in cart_items:
+        menu_item = MenuItem.query.get(cart_item.item_id)
+        order_item = OrderItem(
+            order=new_order,
+            item_id=cart_item.item_id,
+            quantity=cart_item.quantity,
+            subtotal=menu_item.price * cart_item.quantity
+        )
+        total_order_amount += order_item.subtotal
+        db.session.add(order_item)
+
+    new_order.order_total = total_order_amount
+    db.session.commit()
+
+    CartItem.query.filter_by(user=user).delete()
+    db.session.commit()
+
+    return jsonify({'message': 'Order created successfully'}), 201
+
+# VIEW ORDER (after checkout)
+@app.route('/order/<int:order_id>', methods=['GET'])
+@role_required(['customer', 'restaurant_owner'])
+def view_order(order_id):
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    order = Order.query.filter_by(order_id=order_id, user=user).first()
+
+    if not order:
+        return jsonify({'message': 'Order not found'}), 404
+
+    order_data = order.to_dict()
+
+    order_items = OrderItem.query.filter_by(order=order).all()
+    order_items_data = [item.to_dict() for item in order_items]
+
+    order_data['order_items'] = order_items_data
+
+    return jsonify(order_data), 200
+
+
       
       
 if __name__ == '__main__':

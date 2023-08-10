@@ -16,7 +16,8 @@ class User(db.Model, SerializerMixin):
     phone_number = db.Column(db.String(10), nullable=False)
 
     restaurants = db.relationship('Restaurant', backref='user')
-    orders = db.relationship('Order', backref='user')
+    orders = db.relationship('CartItem', backref='user')
+    carts = db.relationship('CartItem', backref='user')
 
     def to_dict(self):
         return{
@@ -102,7 +103,8 @@ class MenuItem(db.Model, SerializerMixin):
     price = db.Column(db.Float, nullable=False)
     customization_options = db.Column(db.String(100), nullable=False)
     restaurant = db.relationship('Restaurant', back_populates='menu_items')
-    menu_item = db.relationship('MenuItem', backref='order_items')
+    menu_item = db.relationship('MenuItem', backref='menuitems')
+    cartitem = db.relationship('MenuItem', backref='menuitems')
 
     #restaurant = db.relationship('Restaurant', backref=db.backref('menu_item', lazy=True))
 
@@ -120,6 +122,28 @@ class MenuItem(db.Model, SerializerMixin):
             'customization_options': self.customization_options,
 
         }
+    
+class CartItem(db.Model):
+    __tablename__ = 'cartitems'
+
+    cart_item_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', name = 'fk_user_id_cartitems' ))
+    item_id = db.Column(db.Integer, db.ForeignKey('menuitems.item_id', name = 'fk_item_id_cartitems'))
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.order_id', name = 'fk_order_id_cartitems'))
+    quantity = db.Column(db.Integer, nullable=False)
+
+    # Define the relationships
+    # user = db.relationship('User', backref='cart_items')
+    # item = db.relationship('MenuItem', backref='cart_items')
+
+    def to_dict(self):
+        return {
+            'cart_item_id': self.cart_item_id,
+            'user_id': self.user_id,
+            'item_id': self.item_id,
+            'quantity': self.quantity
+        }
+
 
 # ORDERS
 class Order(db.Model, SerializerMixin):
@@ -133,6 +157,7 @@ class Order(db.Model, SerializerMixin):
     order_date = db.Column(db.DateTime, nullable=False)
 
     orderitems = db.relationship('OrderItem', backref='order')
+    cart = db.relationship('CartItem', backref='order')
 
     # payments = db.relationship('PaymentTransaction', back_populates='order')
 
