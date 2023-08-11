@@ -54,9 +54,7 @@ const Header = ({ onSearchInputChange }) => {
           <span className='cart-item-count'>{cartItemCount}</span>
           <img src={profile} alt='Profile' className='header-profile-image cur-po' />
         </div>
-        <div className='logout-button-container'>
-          <button className='logout-button' onClick={() => navigate('/login')}>Logout</button>
-        </div>
+          <button className='logout-button' onClick={() => navigate('/login')}>Logout </button>
       </div>
       <CartModal isOpen={isCartModalOpen} onClose={handleCartModalClose} />
     </div>

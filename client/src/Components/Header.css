@@ -55,7 +55,7 @@
 
 .header-searchbar{
     display: flex;
-    flex: 2;
+    flex: 1;
 }
 
 .search-icon{
@@ -74,7 +74,6 @@
 .profile-wrapper{
     display: flex;
     justify-content: space-between;
-    width: 15%;
     align-items: center;
 }
 
@@ -82,18 +81,21 @@
     height: 40px;
     width: 40px;
     border-radius: 50%;
+    margin-left: 50px;
 }
 
 .cart-icon{
     font-size: 30px;
+    margin-right: 10px;
 }
 
 .logout-button {
-    background-color: transparent;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: color 0.5s ease;
+  background-color: transparent;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: color 0.5s ease;
+  margin-left: 12px;
   }
   
   .logout-button:hover {
